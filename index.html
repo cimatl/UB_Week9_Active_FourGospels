@@ -81,11 +81,19 @@ label{display:block;font-weight:800;color:var(--teal);margin:12px 0 6px}
         <input id="studentGroup" placeholder="e.g., 3A, 4B, Friday-2" oninput="saveIdentity()" />
       </div>
     </div>
-    <div id="submitStatus" class="notice hidden"></div>
+    <div id="submitStatus" class="notice hidden"></div><p class="small" data-en="Partial submissions are allowed. Empty blanks will be saved as blank cells." data-ko="부분 제출이 가능합니다. 비어 있는 칸은 빈 셀로 저장됩니다.">Partial submissions are allowed. Empty blanks will be saved as blank cells.</p>
   </div>
 
   <div id="overview" class="main">
     <h2 data-en="Active Learning Template" data-ko="Active Learning Template">Active Learning Template</h2>
+    <div class="notice">
+      <b>Typing Fix:</b>
+      <span>Typing no longer reloads the workspace after each character. Answers autosave while typing; use Refresh Progress if you want to update the completion bar.</span>
+    </div>
+    <div class="notice">
+      <b>Input Mode:</b>
+      <span>All workspace blanks are open for classroom use. Answers still autosave locally, and final submission saves to Google Sheet when students click Submit.</span>
+    </div>
     <div class="notice">
       <b data-en="Active Learning Template:" data-ko="Active Learning Template:">Active Learning Template:</b>
       <span data-en="This template moves students through disruption, reconstruction, movement tracking, and covenantal praxis. Stages unlock sequentially to prevent premature application." data-ko="이 템플릿은 학생들을 전제 흔들기, 재구성, 움직임 추적, 언약적 실천으로 이끈다. 성급한 적용을 막기 위해 단계가 순차적으로 열린다.">This template moves students through disruption, reconstruction, movement tracking, and covenantal praxis. Stages unlock sequentially to prevent premature application.</span>
@@ -325,14 +333,14 @@ function setLang(lang){
   document.querySelectorAll('[data-en]').forEach(el => {
     el.textContent = lang === 'ko' ? el.dataset.ko : el.dataset.en;
   });
-  renderLists(); renderText();
+  renderLists();
 }
 
 function showPanel(id){
   ['overview','workspace','rubric'].forEach(x=>{
     document.getElementById(x).classList.toggle('hidden', x!==id);
   });
-  if(id==='workspace'){ renderLists(); renderText(); }
+  if(id==='workspace'){ renderLists(); }
 }
 
 function storageKey(id, field){ return `ub_w9_active_${id}_${field}`; }
@@ -366,7 +374,7 @@ function renderLists(){
     const b = document.createElement('button');
     b.className = 'textBtn' + (x.id===current ? ' active':'');
     b.innerHTML = `<b>${x.id}</b> · ${t(x,'title','titleKo')}<br><span class="small">${t(x,'theme','themeKo')}</span>`;
-    b.onclick = ()=>{ current=x.id; renderLists(); renderText(); };
+    b.onclick = ()=>{ current=x.id; renderLists(); };
     (x.day === 'Tuesday' ? tue : fri).appendChild(b);
   });
 }
@@ -375,7 +383,7 @@ function completed(id, fields){
   return fields.every(f => (loadField(id,f).trim().length > 0));
 }
 
-function renderText(){
+function{
   const x = TEXTS.find(z=>z.id===current);
   const card = document.getElementById('textCard');
   const dDone = completed(x.id, ['pre_assumption','pre_expectation','pre_danger']);
@@ -405,138 +413,132 @@ function renderText(){
       <h3>${LANG==='ko'?'0단계: 전제 흔들기':'Stage 0: Pre-Answer Disruption'}</h3>
       <p class="small">${LANG==='ko'?'답하기 전에, 이미 틀렸을 수 있는 전제를 먼저 드러내라.':'Before answering, expose the assumption that may already be wrong.'}</p>
       <label>${LANG==='ko'?'내가 이미 가지고 온 전제는 무엇인가?':'What assumption am I bringing to this text?'}</label>
-      <textarea oninput="saveField('${x.id}','pre_assumption',this.value); renderText()">${loadField(x.id,'pre_assumption')}</textarea>
+      <textarea oninput="saveField('${x.id}','pre_assumption',this.value)">${loadField(x.id,'pre_assumption')}</textarea>
       <label>${LANG==='ko'?'나는 이 본문이 무엇을 말할 것이라고 기대하는가?':'What do I expect this text to say?'}</label>
-      <textarea oninput="saveField('${x.id}','pre_expectation',this.value); renderText()">${loadField(x.id,'pre_expectation')}</textarea>
+      <textarea oninput="saveField('${x.id}','pre_expectation',this.value)">${loadField(x.id,'pre_expectation')}</textarea>
       <label>${LANG==='ko'?'그 기대가 왜 위험할 수 있는가?':'Why might that expectation be dangerous?'}</label>
-      <textarea oninput="saveField('${x.id}','pre_danger',this.value); renderText()">${loadField(x.id,'pre_danger')}</textarea>
+      <textarea oninput="saveField('${x.id}','pre_danger',this.value)">${loadField(x.id,'pre_danger')}</textarea>
     </div>
 
-    <div class="card ${dDone?'':'locked'}">
+    <div class="card ">
       <h3>${LANG==='ko'?'1단계: 관찰 — 본문 안에 머물기':'Stage 1: Observe — Stay Inside the Text'}</h3>
-      ${dDone?'':`<div class="unlockNote">${LANG==='ko'?'먼저 0단계를 완료해야 한다.':'Complete Stage 0 first.'}</div>`}
       <label>${LANG==='ko'?'반복어/핵심어 3개':'3 repeated/key words'}</label>
-      <textarea ${dDone?'':'disabled'} oninput="saveField('${x.id}','stage_observe_words',this.value); renderText()">${loadField(x.id,'stage_observe_words')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_observe_words',this.value)">${loadField(x.id,'stage_observe_words')}</textarea>
       <label>${LANG==='ko'?'본문 안의 움직임 1개':'1 movement in the passage'}</label>
-      <textarea ${dDone?'':'disabled'} oninput="saveField('${x.id}','stage_observe_movement',this.value); renderText()">${loadField(x.id,'stage_observe_movement')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_observe_movement',this.value)">${loadField(x.id,'stage_observe_movement')}</textarea>
       <label>${LANG==='ko'?'긴장/갈등 1개':'1 tension/conflict'}</label>
-      <textarea ${dDone?'':'disabled'} oninput="saveField('${x.id}','stage_observe_tension',this.value); renderText()">${loadField(x.id,'stage_observe_tension')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_observe_tension',this.value)">${loadField(x.id,'stage_observe_tension')}</textarea>
     </div>
 
-    <div class="card ${s1Done?'':'locked'}">
+    <div class="card ">
       <h3>${LANG==='ko'?'2단계: 해석 — 에믹 의미 재구성':'Stage 2: Interpret — Reconstruct Emic Meaning'}</h3>
-      ${s1Done?'':`<div class="unlockNote">${LANG==='ko'?'먼저 1단계를 완료해야 한다.':'Complete Stage 1 first.'}</div>`}
       <label>${LANG==='ko'?'주해 질문':'Exegetical Question'}</label>
       <p>${t(x,'exe','exeKo')}</p>
-      <textarea ${s1Done?'':'disabled'} oninput="saveField('${x.id}','individual_exe',this.value)">${loadField(x.id,'individual_exe')}</textarea>
+      <textarea  oninput="saveField('${x.id}','individual_exe',this.value)">${loadField(x.id,'individual_exe')}</textarea>
       <label>${LANG==='ko'?'저자 의도 / 본문 내부 의미':'Authorial intent / in-text meaning'}</label>
-      <textarea ${s1Done?'':'disabled'} oninput="saveField('${x.id}','stage_interpret_intent',this.value); renderText()">${loadField(x.id,'stage_interpret_intent')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_interpret_intent',this.value)">${loadField(x.id,'stage_interpret_intent')}</textarea>
       <label>${LANG==='ko'?'서사적 기능':'Narrative function'}</label>
-      <textarea ${s1Done?'':'disabled'} oninput="saveField('${x.id}','stage_interpret_function',this.value); renderText()">${loadField(x.id,'stage_interpret_function')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_interpret_function',this.value)">${loadField(x.id,'stage_interpret_function')}</textarea>
       <label>${LANG==='ko'?'역사적 간격: 어떤 1세기 세계를 이해해야 하는가?':'Historical Gap: What first-century world must be understood?'}</label>
-      <textarea ${s1Done?'':'disabled'} oninput="saveField('${x.id}','gap_historical',this.value); renderText()">${loadField(x.id,'gap_historical')}</textarea>
+      <textarea  oninput="saveField('${x.id}','gap_historical',this.value)">${loadField(x.id,'gap_historical')}</textarea>
     </div>
 
-    <div class="card ${s2Done?'':'locked'}">
+    <div class="card ">
       <h3>${LANG==='ko'?'3단계: 연결 — 책임 있는 다리 만들기':'Stage 3: Bridge — Build a Responsible Bridge'}</h3>
-      ${s2Done?'':`<div class="unlockNote">${LANG==='ko'?'먼저 2단계를 완료해야 한다.':'Complete Stage 2 first.'}</div>`}
       <label>${LANG==='ko'?'해석학 질문':'Hermeneutical Question'}</label>
       <p>${t(x,'her','herKo')}</p>
-      <textarea ${s2Done?'':'disabled'} oninput="saveField('${x.id}','individual_her',this.value)">${loadField(x.id,'individual_her')}</textarea>
+      <textarea  oninput="saveField('${x.id}','individual_her',this.value)">${loadField(x.id,'individual_her')}</textarea>
       <label>${LANG==='ko'?'연속성: 오늘로 이어지는 것은 무엇인가?':'Continuity: What carries over?'}</label>
-      <textarea ${s2Done?'':'disabled'} oninput="saveField('${x.id}','stage_bridge_continuity',this.value); renderText()">${loadField(x.id,'stage_bridge_continuity')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_bridge_continuity',this.value)">${loadField(x.id,'stage_bridge_continuity')}</textarea>
       <label>${LANG==='ko'?'불연속성: 오늘로 그대로 가져오면 안 되는 것은 무엇인가?':'Discontinuity: What must not be carried over directly?'}</label>
-      <textarea ${s2Done?'':'disabled'} oninput="saveField('${x.id}','stage_bridge_discontinuity',this.value); renderText()">${loadField(x.id,'stage_bridge_discontinuity')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_bridge_discontinuity',this.value)">${loadField(x.id,'stage_bridge_discontinuity')}</textarea>
       <label>${LANG==='ko'?'문학적 간격: 이 복음서의 고유한 목소리는 무엇인가?':'Literary Gap: What is this Gospel’s distinctive voice?'}</label>
-      <textarea ${s2Done?'':'disabled'} oninput="saveField('${x.id}','gap_literary',this.value); renderText()">${loadField(x.id,'gap_literary')}</textarea>
+      <textarea  oninput="saveField('${x.id}','gap_literary',this.value)">${loadField(x.id,'gap_literary')}</textarea>
       <label>${LANG==='ko'?'문화적 간격: 어떤 현대 전제가 본문을 왜곡할 수 있는가?':'Cultural Gap: What modern assumption might distort the text?'}</label>
-      <textarea ${s2Done?'':'disabled'} oninput="saveField('${x.id}','gap_cultural',this.value); renderText()">${loadField(x.id,'gap_cultural')}</textarea>
+      <textarea  oninput="saveField('${x.id}','gap_cultural',this.value)">${loadField(x.id,'gap_cultural')}</textarea>
       <label>${LANG==='ko'?'책임 있는 연결 문장':'Responsible bridge statement'}</label>
-      <textarea ${s2Done?'':'disabled'} oninput="saveField('${x.id}','stage_bridge_statement',this.value); renderText()">${loadField(x.id,'stage_bridge_statement')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_bridge_statement',this.value)">${loadField(x.id,'stage_bridge_statement')}</textarea>
     </div>
 
-    <div class="card ${s3Done?'':'locked'}">
+    <div class="card ">
       <h3>${LANG==='ko'?'4단계: 체화 — 변화의 방향 명명하기':'Stage 4: Embody — Name the Direction of Change'}</h3>
-      ${s3Done?'':`<div class="unlockNote">${LANG==='ko'?'먼저 3단계를 완료해야 한다.':'Complete Stage 3 first.'}</div>`}
       <label>${LANG==='ko'?'인식은 어떻게 바뀌는가?':'What changes in perception?'}</label>
-      <textarea ${s3Done?'':'disabled'} oninput="saveField('${x.id}','stage_embody_perception',this.value); renderText()">${loadField(x.id,'stage_embody_perception')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_embody_perception',this.value)">${loadField(x.id,'stage_embody_perception')}</textarea>
       <label>${LANG==='ko'?'욕망은 어떻게 바뀌는가?':'What changes in desire?'}</label>
-      <textarea ${s3Done?'':'disabled'} oninput="saveField('${x.id}','stage_embody_desire',this.value); renderText()">${loadField(x.id,'stage_embody_desire')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_embody_desire',this.value)">${loadField(x.id,'stage_embody_desire')}</textarea>
       <label>${LANG==='ko'?'행동은 어떻게 바뀌는가?':'What changes in behavior?'}</label>
-      <textarea ${s3Done?'':'disabled'} oninput="saveField('${x.id}','stage_embody_behavior',this.value); renderText()">${loadField(x.id,'stage_embody_behavior')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_embody_behavior',this.value)">${loadField(x.id,'stage_embody_behavior')}</textarea>
       <label>${LANG==='ko'?'공동체 삶은 어떻게 바뀌는가?':'What changes in community life?'}</label>
-      <textarea ${s3Done?'':'disabled'} oninput="saveField('${x.id}','stage_embody_community',this.value); renderText()">${loadField(x.id,'stage_embody_community')}</textarea>
+      <textarea  oninput="saveField('${x.id}','stage_embody_community',this.value)">${loadField(x.id,'stage_embody_community')}</textarea>
       <label>${LANG==='ko'?'형성의 간격: 본문은 나/우리를 어떤 변화로 초대하는가?':'Formation Gap: What change does the text invite?'}</label>
-      <textarea ${s3Done?'':'disabled'} oninput="saveField('${x.id}','gap_formation',this.value); renderText()">${loadField(x.id,'gap_formation')}</textarea>
+      <textarea  oninput="saveField('${x.id}','gap_formation',this.value)">${loadField(x.id,'gap_formation')}</textarea>
     </div>
 
-    <div class="two ${s4Done?'':'locked'}">
+    <div class="two ">
       <div class="card">
         <h3>${LANG==='ko'?'A그룹 — 본문 의미 주장':'Group A — Textual Claim'}</h3>
-        ${s4Done?'':`<div class="unlockNote">${LANG==='ko'?'먼저 4단계를 완료해야 한다.':'Complete Stage 4 first.'}</div>`}
         <p class="small">${LANG==='ko'?'“이 본문은 …을 의미한다”를 한 문장으로 주장하라.':'Argue in one sentence: “This text means…”'}</p>
-        <textarea ${s4Done?'':'disabled'} oninput="saveField('${x.id}','group_a',this.value); renderText()">${loadField(x.id,'group_a')}</textarea>
+        <textarea  oninput="saveField('${x.id}','group_a',this.value)">${loadField(x.id,'group_a')}</textarea>
       </div>
       <div class="card">
         <h3>${LANG==='ko'?'B그룹 — 해석 도전':'Group B — Interpretive Challenge'}</h3>
         <p class="small">${LANG==='ko'?'“그 해석은 …을 놓치고 있다”를 한 문장으로 도전하라.':'Challenge in one sentence: “That interpretation misses…”'}</p>
-        <textarea ${s4Done?'':'disabled'} oninput="saveField('${x.id}','group_b',this.value); renderText()">${loadField(x.id,'group_b')}</textarea>
+        <textarea  oninput="saveField('${x.id}','group_b',this.value)">${loadField(x.id,'group_b')}</textarea>
       </div>
     </div>
 
-    <div class="card ${s4Done?'':'locked'}">
+    <div class="card ">
       <h3>${LANG==='ko'?'통합 명제 — 긴장 해결':'Integrated Claim — Resolve the Tension'}</h3>
       <p class="small">${LANG==='ko'?'A와 B를 단순 결합하지 말고, 긴장을 해결한 하나의 명제를 작성하라.':'Do not merely combine A and B. Resolve the tension in one claim.'}</p>
-      <textarea ${s4Done?'':'disabled'} oninput="saveField('${x.id}','integrated',this.value); renderText()">${loadField(x.id,'integrated')}</textarea>
+      <textarea  oninput="saveField('${x.id}','integrated',this.value)">${loadField(x.id,'integrated')}</textarea>
     </div>
 
-    <div class="card ${groupDone?'':'locked'}">
+    <div class="card ">
       <h3>${LANG==='ko'?'움직임 지도':'WHERE Movement Map'}</h3>
-      ${groupDone?'':`<div class="unlockNote">${LANG==='ko'?'먼저 그룹 통합 명제를 완료해야 한다.':'Complete the group integration first.'}</div>`}
       <label>${LANG==='ko'?'이전: 나는 이 문제에서 어디에 있었는가?':'Before: Where was I located in this issue?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','move_before',this.value)">${loadField(x.id,'move_before')}</textarea>
+      <textarea  oninput="saveField('${x.id}','move_before',this.value)">${loadField(x.id,'move_before')}</textarea>
       <label>${LANG==='ko'?'흔들림: 무엇이 나를 도전했는가?':'Disruption: What challenged me?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','move_disruption',this.value)">${loadField(x.id,'move_disruption')}</textarea>
+      <textarea  oninput="saveField('${x.id}','move_disruption',this.value)">${loadField(x.id,'move_disruption')}</textarea>
       <label>${LANG==='ko'?'이후: 나는 지금 어디에 있는가?':'After: Where am I now?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','move_after',this.value)">${loadField(x.id,'move_after')}</textarea>
+      <textarea  oninput="saveField('${x.id}','move_after',this.value)">${loadField(x.id,'move_after')}</textarea>
       <label>${LANG==='ko'?'다음: 나는 어디로 보냄받는가?':'Next: Where am I sent?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','move_next',this.value)">${loadField(x.id,'move_next')}</textarea>
+      <textarea  oninput="saveField('${x.id}','move_next',this.value)">${loadField(x.id,'move_next')}</textarea>
     </div>
 
-    <div class="card commitment ${groupDone?'':'locked'}">
+    <div class="card commitment ">
       <h3>${LANG==='ko'?'언약적 실천 엔진':'Covenantal Praxis Engine'}</h3>
       <label>${LANG==='ko'?'이번 주 내가 할 구체적 행동':'This week I will act'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','praxis_act',this.value); renderText()">${loadField(x.id,'praxis_act')}</textarea>
+      <textarea  oninput="saveField('${x.id}','praxis_act',this.value)">${loadField(x.id,'praxis_act')}</textarea>
       <label>${LANG==='ko'?'누구를 향해?':'Toward whom?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','praxis_toward',this.value); renderText()">${loadField(x.id,'praxis_toward')}</textarea>
+      <textarea  oninput="saveField('${x.id}','praxis_toward',this.value)">${loadField(x.id,'praxis_toward')}</textarea>
       <label>${LANG==='ko'?'무엇을 대가로 치를 수 있는가?':'What cost might this require?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','praxis_cost',this.value); renderText()">${loadField(x.id,'praxis_cost')}</textarea>
+      <textarea  oninput="saveField('${x.id}','praxis_cost',this.value)">${loadField(x.id,'praxis_cost')}</textarea>
       <label>${LANG==='ko'?'어떤 저항이 예상되는가?':'What resistance do I expect?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','praxis_resistance',this.value); renderText()">${loadField(x.id,'praxis_resistance')}</textarea>
+      <textarea  oninput="saveField('${x.id}','praxis_resistance',this.value)">${loadField(x.id,'praxis_resistance')}</textarea>
       <label>${LANG==='ko'?'누가 이 실천을 알고 확인할 것인가?':'Who will know and help me stay accountable?'}</label>
-      <textarea ${groupDone?'':'disabled'} oninput="saveField('${x.id}','praxis_accountability',this.value); renderText()">${loadField(x.id,'praxis_accountability')}</textarea>
+      <textarea  oninput="saveField('${x.id}','praxis_accountability',this.value)">${loadField(x.id,'praxis_accountability')}</textarea>
     </div>
 
-    <div class="card ${praxisDone?'':'locked'}">
+    <div class="card ">
       <h3>${LANG==='ko'?'실패 루프와 최종 잠금':'Failure Loop + Final Lock'}</h3>
-      ${praxisDone?'':`<div class="unlockNote">${LANG==='ko'?'먼저 언약적 실천 엔진을 완료해야 한다.':'Complete the Covenantal Praxis Engine first.'}</div>`}
       <label>${LANG==='ko'?'우리 그룹은 무엇을 놓쳤는가?':'What did our group miss?'}</label>
-      <textarea ${praxisDone?'':'disabled'} oninput="saveField('${x.id}','failure_missed',this.value)">${loadField(x.id,'failure_missed')}</textarea>
+      <textarea  oninput="saveField('${x.id}','failure_missed',this.value)">${loadField(x.id,'failure_missed')}</textarea>
       <label>${LANG==='ko'?'우리는 어디에서 너무 빨리 적용으로 이동했는가?':'Where did we move too quickly into application?'}</label>
-      <textarea ${praxisDone?'':'disabled'} oninput="saveField('${x.id}','failure_fast',this.value)">${loadField(x.id,'failure_fast')}</textarea>
+      <textarea  oninput="saveField('${x.id}','failure_fast',this.value)">${loadField(x.id,'failure_fast')}</textarea>
       <label>${LANG==='ko'?'다른 그룹이 우리에게 보여준 것은 무엇인가?':'What did another group show us?'}</label>
-      <textarea ${praxisDone?'':'disabled'} oninput="saveField('${x.id}','failure_other',this.value)">${loadField(x.id,'failure_other')}</textarea>
+      <textarea  oninput="saveField('${x.id}','failure_other',this.value)">${loadField(x.id,'failure_other')}</textarea>
       <label>${LANG==='ko'?'이 본문 때문에, 나는 더 이상 ________ 믿을 수 없다.':'Because of this text, I can no longer believe ________.'}</label>
-      <textarea ${praxisDone?'':'disabled'} oninput="saveField('${x.id}','final_no_longer',this.value); renderText()">${loadField(x.id,'final_no_longer')}</textarea>
+      <textarea  oninput="saveField('${x.id}','final_no_longer',this.value)">${loadField(x.id,'final_no_longer')}</textarea>
       <label>${LANG==='ko'?'나는 이제 ________ 살아야 한다.':'I must now live ________.'}</label>
-      <textarea ${praxisDone?'':'disabled'} oninput="saveField('${x.id}','final_must_live',this.value); renderText()">${loadField(x.id,'final_must_live')}</textarea>
+      <textarea  oninput="saveField('${x.id}','final_must_live',this.value)">${loadField(x.id,'final_must_live')}</textarea>
     </div>
 
     <div class="footerBtns">
+      <button onclick="renderText()">${LANG==='ko'?'진행률 새로고침':'Refresh Progress'}</button>
       <button onclick="copyCurrent('${x.id}')">${LANG==='ko'?'현재 본문 응답 복사':'Copy Current Responses'}</button>
       <button onclick="downloadAll()">${LANG==='ko'?'전체 응답 JSON 다운로드':'Download All Responses JSON'}</button>
-      <button onclick="submitCurrentText('${x.id}')">${LANG==='ko'?'현재 본문 Google 제출':'Submit Current Text to Google'}</button>
-      <button onclick="submitAllTexts()">${LANG==='ko'?'전체 Google 제출':'Submit All to Google'}</button>
+      <button onclick="submitCurrentText('${x.id}')">${LANG==='ko'?'현재 본문 부분 제출 가능':'Submit Current Text (Partial OK)'}</button>
+      <button onclick="submitAllTexts()">${LANG==='ko'?'전체 부분 제출 가능':'Submit All (Partial OK)'}</button>
       <button onclick="clearCurrent('${x.id}')">${LANG==='ko'?'현재 본문 응답 삭제':'Clear Current Text'}</button>
     </div>
   `;
@@ -561,12 +563,8 @@ function collectOne(id){
 }
 
 function getSubmissionIdentity(){
-  const name = (document.getElementById('studentName')?.value || '').trim();
-  const group = (document.getElementById('studentGroup')?.value || '').trim();
-  if(!name){
-    showSubmitStatus(LANG==='ko'?'학생 이름/학번을 입력하세요.':'Please enter your name or student ID.', true);
-    return null;
-  }
+  const name = (document.getElementById('studentName')?.value || '').trim() || 'Anonymous / Not entered';
+  const group = (document.getElementById('studentGroup')?.value || '').trim() || 'No group entered';
   return { name, group };
 }
 
@@ -637,9 +635,9 @@ function clearCurrent(id){
     'praxis_act','praxis_toward','praxis_cost','praxis_resistance','praxis_accountability',
     'failure_missed','failure_fast','failure_other','final_no_longer','final_must_live'
   ].forEach(f=>localStorage.removeItem(storageKey(id,f)));
-  renderText();
+ ;
 }
-renderLists(); renderText(); loadIdentity();
+renderLists(); loadIdentity();
 </script>
 </body>
 </html>
