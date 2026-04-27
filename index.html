@@ -3,23 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>UB Week 9 Active Learning App — Four Gospels</title>
+<title>UB Week 9 Active Learning — Stable App</title>
 <style>
-:root{
-  --bg:#f7f3ea; --panel:#fffdf8; --ink:#1d160c; --muted:#6e6558;
-  --gold:#9b7628; --teal:#1f5f55; --line:#e1d5c3; --soft:#efe7d8;
-  --accent:#2e1f0a; --good:#e8f3f0; --warn:#fff3d8;
-}
+:root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#1d160c;--muted:#6e6558;--gold:#9b7628;--teal:#1f5f55;--line:#e1d5c3;--soft:#efe7d8;--accent:#2e1f0a;--good:#e8f3f0;--warn:#fff3d8;--danger:#8a3a32}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.55}
-header{background:#15120d;color:white;padding:28px 32px;border-bottom:6px solid var(--gold)}
-header h1{margin:0;font-size:30px;letter-spacing:-.5px}
-header p{margin:6px 0 0;color:#d9d1c5}
-.wrap{max-width:1180px;margin:0 auto;padding:22px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 22px}
-button,.pill{border:1px solid var(--line);background:var(--panel);padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--accent)}
-button.active{background:var(--accent);color:white;border-color:var(--accent)}
-.grid{display:grid;grid-template-columns:280px 1fr;gap:18px}
+header{background:#15120d;color:white;padding:26px 32px;border-bottom:6px solid var(--gold)}
+header h1{margin:0;font-size:29px} header p{margin:6px 0 0;color:#d9d1c5}
+.wrap{max-width:1220px;margin:0 auto;padding:22px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
+button{border:1px solid var(--line);background:var(--panel);padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--accent)}
+button:hover,button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.identity{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:290px 1fr;gap:18px}
 .sidebar{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;position:sticky;top:12px;align-self:start}
 .main{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
 .dayTitle{font-size:18px;color:var(--teal);font-weight:800;margin:12px 0 8px}
@@ -29,615 +25,281 @@ button.active{background:var(--accent);color:white;border-color:var(--accent)}
 .card h2,.card h3{margin-top:0}
 .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
 .meta div{background:var(--soft);border-radius:12px;padding:12px}
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.flow .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-.step b{color:var(--teal)}
+.stage-title{background:var(--good);border-left:6px solid var(--teal)}
+.notice{background:var(--warn);border:1px solid #e6c56c;border-radius:14px;padding:12px;margin:12px 0}
+.success{background:#edf7ee;border-color:#9ac49f} .error{background:#fff0f0;border-color:#d69b9b}
 textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:15px;background:#fffdf8}
-textarea{min-height:96px;resize:vertical}
+textarea{min-height:104px;resize:vertical}
 label{display:block;font-weight:800;color:var(--teal);margin:12px 0 6px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.rubric{width:100%;border-collapse:collapse;margin-top:10px}
-.rubric th,.rubric td{border:1px solid var(--line);padding:10px;vertical-align:top}
-.rubric th{background:var(--soft);text-align:left;color:var(--accent)}
-.small{font-size:14px;color:var(--muted)}
-.hidden{display:none}
-.notice{background:var(--warn);border:1px solid #e6c56c;border-radius:14px;padding:12px;margin:12px 0}
+.small{font-size:14px;color:var(--muted)} .badge{display:inline-block;background:var(--good);border:1px solid var(--teal);border-radius:999px;padding:4px 9px;margin:3px;font-size:13px}
 .footerBtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.locked{opacity:.52;filter:grayscale(.2)}
-.unlockNote{font-size:14px;color:var(--muted);background:var(--soft);border-radius:10px;padding:8px 10px;margin:8px 0}
-.progressBar{height:10px;background:var(--soft);border-radius:999px;overflow:hidden;margin:12px 0}
-.progressFill{height:100%;width:0;background:var(--teal);transition:width .25s ease}
-.badge{display:inline-block;background:var(--good);border:1px solid var(--teal);border-radius:999px;padding:4px 9px;margin:3px;font-size:13px}
-.warningText{color:#8a4d00;font-weight:700}
-.commitment{background:#f4efe4;border-left:5px solid var(--gold)}
-@media(max-width:850px){.grid,.two,.meta,.flow{grid-template-columns:1fr}.sidebar{position:relative}.wrap{padding:12px}}
+.hidden{display:none}
+.rubric{width:100%;border-collapse:collapse;margin-top:10px} .rubric th,.rubric td{border:1px solid var(--line);padding:10px;vertical-align:top} .rubric th{background:var(--soft);text-align:left;color:var(--accent)}
+@media(max-width:850px){.grid,.two,.meta{grid-template-columns:1fr}.sidebar{position:relative}.wrap{padding:12px}}
 </style>
 </head>
 <body>
 <header>
-  <h1 data-en="Understanding the Bible — Week 9 Active Learning App" data-ko="성경의 이해 — 9주차 액티브 러닝 앱">Understanding the Bible — Week 9 Active Learning App</h1>
-  <p data-en="New Testament & The Four Gospels · 10 Core Texts · Tuesday 5 + Friday 5" data-ko="신약성서와 네 복음서 · 핵심 본문 10개 · 화요일 5개 + 금요일 5개">New Testament & The Four Gospels · 10 Core Texts · Tuesday 5 + Friday 5</p>
+  <h1 id="appTitle">Understanding the Bible — Week 9 Active Learning App</h1>
+  <p id="appSubtitle">Stable version · All blanks open · Continuous typing · Local autosave · Google submission</p>
 </header>
 
 <div class="wrap">
   <div class="toolbar">
     <button id="enBtn" class="active" onclick="setLang('en')">English</button>
     <button id="koBtn" onclick="setLang('ko')">한국어</button>
-    <button onclick="showPanel('overview')" data-en="Overview" data-ko="개요">Overview</button>
-    <button onclick="showPanel('workspace')" data-en="Student Workspace" data-ko="학생 워크스페이스">Student Workspace</button>
-    <button onclick="showPanel('rubric')" data-en="Rubric" data-ko="루브릭">Rubric</button>
+    <button onclick="showPanel('overview')" id="overviewBtn">Overview</button>
+    <button onclick="showPanel('workspace')" id="workspaceBtn">Student Workspace</button>
+    <button onclick="showPanel('rubric')" id="rubricBtn">Rubric</button>
   </div>
 
-  <div class="main" id="studentIdentityBox" style="margin-bottom:18px">
-    <h2 data-en="Student Submission Information" data-ko="학생 제출 정보">Student Submission Information</h2>
-    <p class="small" data-en="Your answers are autosaved in this browser. To send them to the professor, enter your information and use the submit buttons in the workspace." data-ko="답변은 이 브라우저에 자동 저장됩니다. 교수자에게 보내려면 정보를 입력하고 워크스페이스의 제출 버튼을 사용하세요.">Your answers are autosaved in this browser. To send them to the professor, enter your information and use the submit buttons in the workspace.</p>
-    <div class="meta">
-      <div>
-        <label data-en="Student Name / ID" data-ko="학생 이름 / 학번">Student Name / ID</label>
-        <input id="studentName" placeholder="Name or student ID" oninput="saveIdentity()" />
-      </div>
-      <div>
-        <label data-en="Group" data-ko="그룹">Group</label>
-        <input id="studentGroup" placeholder="e.g., 3A, 4B, Friday-2" oninput="saveIdentity()" />
-      </div>
+  <section class="identity">
+    <div class="two">
+      <div><label id="nameLabel">Student Name / ID</label><input id="studentName" placeholder="Name or student ID"></div>
+      <div><label id="groupLabel">Group</label><input id="studentGroup" placeholder="e.g., 3A, 4B, Friday-2"></div>
     </div>
-    <div id="submitStatus" class="notice hidden"></div><p class="small" data-en="Partial submissions are allowed. Empty blanks will be saved as blank cells." data-ko="부분 제출이 가능합니다. 비어 있는 칸은 빈 셀로 저장됩니다.">Partial submissions are allowed. Empty blanks will be saved as blank cells.</p>
-  </div>
+    <p class="small" id="saveNote">Typing is saved automatically in this browser. Partial Google submission is allowed.</p>
+    <div id="submitStatus" class="notice hidden"></div>
+  </section>
 
   <div id="overview" class="main">
-    <h2 data-en="Active Learning Template" data-ko="Active Learning Template">Active Learning Template</h2>
-    <div class="notice">
-      <b>Typing Fix:</b>
-      <span>Typing no longer reloads the workspace after each character. Answers autosave while typing; use Refresh Progress if you want to update the completion bar.</span>
-    </div>
-    <div class="notice">
-      <b>Input Mode:</b>
-      <span>All workspace blanks are open for classroom use. Answers still autosave locally, and final submission saves to Google Sheet when students click Submit.</span>
-    </div>
-    <div class="notice">
-      <b data-en="Active Learning Template:" data-ko="Active Learning Template:">Active Learning Template:</b>
-      <span data-en="This template moves students through disruption, reconstruction, movement tracking, and covenantal praxis. Stages unlock sequentially to prevent premature application." data-ko="이 템플릿은 학생들을 전제 흔들기, 재구성, 움직임 추적, 언약적 실천으로 이끈다. 성급한 적용을 막기 위해 단계가 순차적으로 열린다.">This template moves students through disruption, reconstruction, movement tracking, and covenantal praxis. Stages unlock sequentially to prevent premature application.</span>
-    </div>
-    <p data-en="This app converts the Week 9 adaptive pre-class content into an in-class active learning system. Students move from individual preparation to group interpretation, integrated synthesis, presentation, feedback, and exit reflection." data-ko="이 앱은 9주차 어댑티브 사전학습 콘텐츠를 수업 중 액티브 러닝 시스템으로 전환한다. 학생들은 개인 준비에서 그룹 해석, 통합 종합, 발표, 피드백, 종료 성찰로 이동한다."></p>
-    <div class="flow">
-      <div class="step"><b data-en="Stage 1. Observe" data-ko="1단계. 관찰"></b><p data-en="Read the assigned passage closely. Identify repeated words, movement, location, characters, conflict, and literary signals." data-ko="배정 본문을 자세히 읽고 반복어, 움직임, 위치, 인물, 갈등, 문학적 신호를 찾는다."></p></div>
-      <div class="step"><b data-en="Stage 2. Interpret" data-ko="2단계. 해석"></b><p data-en="Explain what the passage meant in its own literary and historical world before moving to today." data-ko="오늘의 적용으로 이동하기 전에 본문이 자신의 문학적·역사적 세계 안에서 무엇을 의미했는지 설명한다."></p></div>
-      <div class="step"><b data-en="Stage 3. Bridge" data-ko="3단계. 연결"></b><p data-en="Move from exegesis to hermeneutics by naming the continuity, gap, and responsible bridge." data-ko="연속성, 간격, 책임 있는 연결을 이름 붙이며 주해에서 해석학으로 이동한다."></p></div>
-      <div class="step"><b data-en="Stage 4. Embody" data-ko="4단계. 체화"></b><p data-en="Name one concrete practice for classroom, church, or society that follows from the text." data-ko="본문에서 따라오는 교실, 교회, 사회를 위한 하나의 구체적 실천을 제시한다."></p></div>
-    </div>
-    <div class="flow">
-      <div class="step"><b data-en="Gap 1. Historical Gap" data-ko="간격 1. 역사적 간격"></b><p data-en="What first-century world must we understand before applying this text?" data-ko="이 본문을 적용하기 전에 어떤 1세기 세계를 이해해야 하는가?"></p></div>
-      <div class="step"><b data-en="Gap 2. Literary Gap" data-ko="간격 2. 문학적 간격"></b><p data-en="How does this Gospel’s own voice shape the meaning differently from the others?" data-ko="이 복음서의 고유한 목소리는 다른 복음서와 달리 의미를 어떻게 형성하는가?"></p></div>
-      <div class="step"><b data-en="Gap 3. Cultural Gap" data-ko="간격 3. 문화적 간격"></b><p data-en="What modern assumptions might distort the passage?" data-ko="어떤 현대적 전제가 본문을 왜곡할 수 있는가?"></p></div>
-      <div class="step"><b data-en="Gap 4. Formation Gap" data-ko="간격 4. 형성의 간격"></b><p data-en="What change in perception, desire, practice, or community life does the text invite?" data-ko="본문은 인식, 욕망, 실천, 공동체 삶에서 어떤 변화를 요청하는가?"></p></div>
-    </div>
-    <div class="notice">
-      <b data-en="Class rhythm:" data-ko="수업 리듬:"></b>
-      <span data-en="Tuesday handles Mark and Matthew. Friday handles Luke and John. Each day uses five texts." data-ko="화요일은 마가와 마태를 다루고, 금요일은 누가와 요한을 다룬다. 각 수업일은 다섯 개의 본문을 사용한다."></span>
-    </div>
+    <h2 id="overviewTitle">Active Learning Template</h2>
+    <div class="notice"><b id="stableLabel">Stable Input Mode:</b> <span id="stableText">All blanks are open. Typing does not re-render the page. Use Google Submit to send answers to the professor.</span></div>
+    <p id="overviewText">This app converts Week 9 adaptive pre-class content into an in-class active learning system. Students move from individual preparation to group interpretation, integrated synthesis, presentation, feedback, and exit reflection.</p>
+    <div class="card"><h3 id="rhythmTitle">Class Rhythm</h3><p id="rhythmText">Tuesday handles Mark and Matthew. Friday handles Luke and John. Each day uses five texts.</p></div>
   </div>
 
   <div id="workspace" class="grid hidden">
     <aside class="sidebar">
-      <div class="dayTitle" data-en="Tuesday Texts" data-ko="화요일 본문">Tuesday Texts</div>
-      <div id="tuesdayList"></div>
-      <div class="dayTitle" data-en="Friday Texts" data-ko="금요일 본문">Friday Texts</div>
-      <div id="fridayList"></div>
+      <div class="dayTitle" id="tueTitle">Tuesday Texts</div><div id="tuesdayList"></div>
+      <div class="dayTitle" id="friTitle">Friday Texts</div><div id="fridayList"></div>
     </aside>
-    <main class="main">
-      <div id="textCard"></div>
-    </main>
+    <main class="main"><div id="textCard"></div></main>
   </div>
 
   <div id="rubric" class="main hidden">
-    <h2 data-en="Assessment Rubric" data-ko="평가 루브릭">Assessment Rubric</h2>
+    <h2 id="rubricTitle">Assessment Rubric</h2>
     <table class="rubric">
-      <thead><tr><th data-en="Category" data-ko="범주"></th><th data-en="Excellent" data-ko="우수"></th><th data-en="Developing" data-ko="발전 중"></th><th data-en="Needs Revision" data-ko="수정 필요"></th></tr></thead>
-      <tbody>
-        <tr><td data-en="Textual Grounding" data-ko="본문 근거"></td><td data-en="Clearly grounded in the assigned passage." data-ko="배정 본문에 분명히 근거한다."></td><td data-en="Uses the passage but needs more precision." data-ko="본문을 사용하지만 더 정밀해야 한다."></td><td data-en="Mostly general or disconnected from the text." data-ko="대체로 일반적이거나 본문과 연결이 약하다."></td></tr>
-        <tr><td data-en="Emic Reading" data-ko="에믹 읽기"></td><td data-en="Lets the Gospel’s own voice shape interpretation." data-ko="복음서 자체의 목소리가 해석을 형성하게 한다."></td><td data-en="Some awareness of Gospel distinctiveness." data-ko="복음서 고유성에 대한 일부 인식이 있다."></td><td data-en="Flattens the Gospels or imports outside categories too quickly." data-ko="복음서를 평면화하거나 외부 범주를 너무 빨리 가져온다."></td></tr>
-        <tr><td data-en="Integration" data-ko="통합"></td><td data-en="Combines exegesis and hermeneutics into one coherent claim." data-ko="주해와 해석학을 하나의 일관된 명제로 결합한다."></td><td data-en="Connection is present but uneven." data-ko="연결은 있으나 고르지 않다."></td><td data-en="Exegetical and hermeneutical parts remain separate." data-ko="주해와 해석학 부분이 분리되어 있다."></td></tr>
-        <tr><td data-en="Praxis" data-ko="실천"></td><td data-en="Names a concrete, responsible movement." data-ko="구체적이고 책임 있는 움직임을 제시한다."></td><td data-en="Praxis is relevant but vague." data-ko="실천은 관련 있으나 모호하다."></td><td data-en="No concrete movement is named." data-ko="구체적 움직임이 제시되지 않는다."></td></tr>
-      </tbody>
+      <tr><th>Category</th><th>Excellent</th><th>Developing</th><th>Needs Revision</th></tr>
+      <tr><td>Textual Grounding</td><td>Clearly grounded in the assigned passage.</td><td>Uses the passage but needs more precision.</td><td>Mostly general or disconnected from the text.</td></tr>
+      <tr><td>Emic Reading</td><td>Lets the Gospel’s own voice shape interpretation.</td><td>Some awareness of Gospel distinctiveness.</td><td>Flattens the Gospels or imports outside categories too quickly.</td></tr>
+      <tr><td>Integration</td><td>Combines exegesis and hermeneutics into one coherent claim.</td><td>Connection is present but uneven.</td><td>Exegetical and hermeneutical parts remain separate.</td></tr>
+      <tr><td>Praxis</td><td>Names a concrete, responsible movement.</td><td>Praxis is relevant but vague.</td><td>No concrete movement is named.</td></tr>
     </table>
   </div>
 </div>
 
 <script>
-const TEXTS = [
-  {
-    "day": "Tuesday",
-    "dayKo": "화요일",
-    "id": "T1",
-    "title": "Mark 1:1–8",
-    "titleKo": "마가복음 1:1–8",
-    "focus": "Focus: Mark 1:1 — the beginning of the gospel of Jesus Christ, the Son of God.",
-    "focusKo": "초점: 마가복음 1:1 — 예수 그리스도, 하나님의 아들의 복음의 시작.",
-    "theme": "Gospel beginning, wilderness, witness, identity.",
-    "themeKo": "복음의 시작, 광야, 증언, 정체성.",
-    "exe": "How does Mark’s opening sentence frame the entire Gospel as proclamation rather than biography?",
-    "exeKo": "마가의 첫 문장은 복음서 전체를 단순 전기가 아니라 선포로 어떻게 구성하는가?",
-    "her": "How does this beginning invite students to rethink where true good news begins today?",
-    "herKo": "이 시작은 오늘 학생들이 참된 좋은 소식이 어디에서 시작되는지를 어떻게 다시 생각하게 하는가?",
-    "integration": "Mark begins the Gospel in wilderness witness so that readers learn Jesus’ identity through proclamation, preparation, and movement toward the cross.",
-    "integrationKo": "마가는 광야의 증언 속에서 복음을 시작함으로써 독자들이 선포, 준비, 그리고 십자가를 향한 움직임 속에서 예수의 정체성을 배우게 한다."
-  },
-  {
-    "day": "Tuesday",
-    "dayKo": "화요일",
-    "id": "T2",
-    "title": "Mark 10:35–45",
-    "titleKo": "마가복음 10:35–45",
-    "focus": "Focus: Mark 10:45 — the Son of Man came to serve and give his life as a ransom for many.",
-    "focusKo": "초점: 마가복음 10:45 — 인자는 섬기고 많은 사람을 위하여 자기 목숨을 대속물로 주기 위해 왔다.",
-    "theme": "Cruciform discipleship, service, ransom, status reversal.",
-    "themeKo": "십자가 중심 제자도, 섬김, 대속, 지위의 역전.",
-    "exe": "How does Jesus redefine greatness against the disciples’ request for status?",
-    "exeKo": "예수는 지위를 요구하는 제자들의 요청에 맞서 위대함을 어떻게 재정의하는가?",
-    "her": "Where does our classroom, church, or society still confuse greatness with power over others?",
-    "herKo": "우리의 교실, 교회, 사회는 어디에서 아직도 위대함을 타인 위에 군림하는 힘과 혼동하는가?",
-    "integration": "Mark 10:45 reveals that Jesus’ identity and discipleship are disclosed through serving rather than being served.",
-    "integrationKo": "마가복음 10:45는 예수의 정체성과 제자도가 섬김을 받는 것이 아니라 섬기는 행위 속에서 드러난다는 것을 보여준다."
-  },
-  {
-    "day": "Tuesday",
-    "dayKo": "화요일",
-    "id": "T3",
-    "title": "Matthew 1:1–17",
-    "titleKo": "마태복음 1:1–17",
-    "focus": "Focus: Matthew 1:1 — Jesus as son of David and son of Abraham.",
-    "focusKo": "초점: 마태복음 1:1 — 다윗의 자손이며 아브라함의 자손인 예수.",
-    "theme": "Genealogy, Israel’s story, fulfillment, covenant memory.",
-    "themeKo": "족보, 이스라엘의 이야기, 성취, 언약적 기억.",
-    "exe": "How does the genealogy locate Jesus within Israel’s covenant story?",
-    "exeKo": "족보는 예수를 이스라엘의 언약 이야기 안에 어떻게 위치시키는가?",
-    "her": "How can memory of the past become a space for mission rather than exclusion?",
-    "herKo": "과거의 기억은 어떻게 배제가 아니라 선교를 위한 공간이 될 수 있는가?",
-    "integration": "Matthew begins with genealogy to show that Jesus fulfills Israel’s story and opens Abraham’s promise toward the nations.",
-    "integrationKo": "마태는 족보로 시작하여 예수가 이스라엘의 이야기를 성취하고 아브라함의 약속을 민족들을 향해 열어 간다는 것을 보여준다."
-  },
-  {
-    "day": "Tuesday",
-    "dayKo": "화요일",
-    "id": "T4",
-    "title": "Matthew 5:1–12",
-    "titleKo": "마태복음 5:1–12",
-    "focus": "Focus: Beatitudes — kingdom righteousness and the formation of a new community.",
-    "focusKo": "초점: 팔복 — 하나님 나라의 의와 새 공동체 형성.",
-    "theme": "Kingdom righteousness, blessing, formation, mercy.",
-    "themeKo": "하나님 나라의 의, 복, 형성, 긍휼.",
-    "exe": "How do the Beatitudes define blessedness in contrast to ordinary social honor?",
-    "exeKo": "팔복은 일반적인 사회적 명예와 대비하여 복을 어떻게 정의하는가?",
-    "her": "Which beatitude most disrupts our current assumptions about success and value?",
-    "herKo": "어떤 팔복이 성공과 가치에 대한 우리의 현재 전제를 가장 강하게 흔드는가?",
-    "integration": "Matthew’s Beatitudes form a community whose righteousness is shaped by poverty of spirit, mercy, peacemaking, and endurance.",
-    "integrationKo": "마태의 팔복은 심령의 가난, 긍휼, 화평케 함, 인내로 형성되는 의의 공동체를 만든다."
-  },
-  {
-    "day": "Tuesday",
-    "dayKo": "화요일",
-    "id": "T5",
-    "title": "Matthew 28:16–20",
-    "titleKo": "마태복음 28:16–20",
-    "focus": "Focus: Great Commission — teaching all nations under Emmanuel presence.",
-    "focusKo": "초점: 대위임령 — 임마누엘의 임재 아래 모든 민족을 가르침.",
-    "theme": "Mission, teaching, authority, presence.",
-    "themeKo": "선교, 가르침, 권위, 임재.",
-    "exe": "How does Matthew conclude by joining authority, teaching, nations, and presence?",
-    "exeKo": "마태는 권위, 가르침, 민족들, 임재를 연결하며 어떻게 결론을 맺는가?",
-    "her": "What would it mean to teach as a community that lives under Jesus’ continuing presence?",
-    "herKo": "예수의 지속적인 임재 아래 살아가는 공동체로서 가르친다는 것은 무엇을 의미하는가?",
-    "integration": "Matthew ends by sending the teaching community to all nations under the promise that Jesus remains with them.",
-    "integrationKo": "마태는 예수가 그들과 함께하신다는 약속 아래 가르침의 공동체를 모든 민족에게 보내며 끝난다."
-  },
-  {
-    "day": "Friday",
-    "dayKo": "금요일",
-    "id": "F1",
-    "title": "Luke 4:16–21",
-    "titleKo": "누가복음 4:16–21",
-    "focus": "Focus: Jesus’ Nazareth sermon — good news, release, sight, freedom.",
-    "focusKo": "초점: 예수의 나사렛 설교 — 좋은 소식, 해방, 시력 회복, 자유.",
-    "theme": "Spirit, release, reversal, mission to the margins.",
-    "themeKo": "성령, 해방, 역전, 주변을 향한 선교.",
-    "exe": "How does Luke present Jesus’ mission through Isaiah’s language of release and restoration?",
-    "exeKo": "누가는 이사야의 해방과 회복의 언어를 통해 예수의 사명을 어떻게 제시하는가?",
-    "her": "Where must good news become concrete release rather than abstract religious language?",
-    "herKo": "좋은 소식은 어디에서 추상적 종교 언어가 아니라 구체적 해방이 되어야 하는가?",
-    "integration": "Luke presents Jesus as the Spirit-led Savior whose mission moves toward the poor, captive, blind, and oppressed.",
-    "integrationKo": "누가는 예수를 가난한 자, 포로 된 자, 눈먼 자, 억눌린 자를 향해 움직이는 성령 충만한 구원자로 제시한다."
-  },
-  {
-    "day": "Friday",
-    "dayKo": "금요일",
-    "id": "F2",
-    "title": "Luke 15:11–32",
-    "titleKo": "누가복음 15:11–32",
-    "focus": "Focus: Lost son, elder son, and the father’s restoring mercy.",
-    "focusKo": "초점: 잃은 아들, 큰아들, 그리고 아버지의 회복시키는 긍휼.",
-    "theme": "Mercy, return, resentment, restored belonging.",
-    "themeKo": "긍휼, 돌아옴, 분노, 회복된 소속.",
-    "exe": "How does the parable redefine lostness through both sons rather than only the younger son?",
-    "exeKo": "이 비유는 둘째 아들만이 아니라 두 아들을 통해 잃어버림을 어떻게 재정의하는가?",
-    "her": "Where do we stand outside the house even while claiming to belong inside?",
-    "herKo": "우리는 어디에서 안에 속했다고 주장하면서도 실제로는 집 밖에 서 있는가?",
-    "integration": "Luke 15 shows that God’s mercy restores the outsider and confronts the insider who refuses shared joy.",
-    "integrationKo": "누가복음 15장은 하나님의 긍휼이 바깥에 있던 이를 회복시키고, 함께 기뻐하기를 거부하는 안쪽 사람을 직면하게 함을 보여준다."
-  },
-  {
-    "day": "Friday",
-    "dayKo": "금요일",
-    "id": "F3",
-    "title": "John 1:1–18",
-    "titleKo": "요한복음 1:1–18",
-    "focus": "Focus: The Logos became flesh and dwelt among us.",
-    "focusKo": "초점: 로고스가 육신이 되어 우리 가운데 거하셨다.",
-    "theme": "Logos, incarnation, light, witness, dwelling.",
-    "themeKo": "로고스, 성육신, 빛, 증언, 거함.",
-    "exe": "How does John’s prologue frame Jesus’ identity through creation, light, flesh, and dwelling?",
-    "exeKo": "요한의 서문은 창조, 빛, 육신, 거함을 통해 예수의 정체성을 어떻게 구성하는가?",
-    "her": "How does incarnation reshape our understanding of God’s presence in embodied human life?",
-    "herKo": "성육신은 몸을 입은 인간 삶 속 하나님의 임재에 대한 우리의 이해를 어떻게 새롭게 하는가?",
-    "integration": "John presents Jesus as the incarnate Logos whose dwelling among us reveals God’s glory and gives life.",
-    "integrationKo": "요한은 예수를 우리 가운데 거하시며 하나님의 영광을 드러내고 생명을 주시는 성육신한 로고스로 제시한다."
-  },
-  {
-    "day": "Friday",
-    "dayKo": "금요일",
-    "id": "F4",
-    "title": "John 13:1–17, 34–35",
-    "titleKo": "요한복음 13:1–17, 34–35",
-    "focus": "Focus: Footwashing and the new commandment of love.",
-    "focusKo": "초점: 발 씻김과 사랑의 새 계명.",
-    "theme": "Love, service, embodied humility, community identity.",
-    "themeKo": "사랑, 섬김, 몸으로 드러나는 겸손, 공동체 정체성.",
-    "exe": "How does footwashing interpret Jesus’ love before the cross?",
-    "exeKo": "발 씻김은 십자가 이전에 예수의 사랑을 어떻게 해석하는가?",
-    "her": "What practice of humble service would make our community recognizable as Jesus’ disciples?",
-    "herKo": "어떤 겸손한 섬김의 실천이 우리 공동체를 예수의 제자로 알아볼 수 있게 하는가?",
-    "integration": "John 13 shows that abiding love becomes visible through embodied service and mutual recognition.",
-    "integrationKo": "요한복음 13장은 거하는 사랑이 몸으로 드러나는 섬김과 상호 인정 속에서 보이게 됨을 보여준다."
-  },
-  {
-    "day": "Friday",
-    "dayKo": "금요일",
-    "id": "F5",
-    "title": "John 20:30–31",
-    "titleKo": "요한복음 20:30–31",
-    "focus": "Focus: Written purpose — believing and having life in Jesus’ name.",
-    "focusKo": "초점: 기록 목적 — 예수의 이름을 믿고 생명을 얻게 함.",
-    "theme": "Belief, life, written witness, reader response.",
-    "themeKo": "믿음, 생명, 기록된 증언, 독자의 응답.",
-    "exe": "How does John explicitly state the purpose of his written Gospel?",
-    "exeKo": "요한은 자신의 기록된 복음서의 목적을 어떻게 명시하는가?",
-    "her": "How can belief move beyond mental agreement into life and continuing witness?",
-    "herKo": "믿음은 어떻게 지적 동의를 넘어 생명과 지속적인 증언으로 나아가는가?",
-    "integration": "John writes so that readers may move through signs into belief, life, and continuing witness in Jesus’ name.",
-    "integrationKo": "요한은 독자들이 표적을 통해 믿음, 생명, 예수의 이름 안에서의 지속적인 증언으로 나아가도록 기록한다."
-  }
-];
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJ0AZBG5baWYnzw9szIRdn1WZOEE-4frgjWcPS3yLmEvVgZFadEQdUCziSdAxGe61C/exec";
+const TEXTS = [{"day": "Tuesday", "dayKo": "화요일", "id": "T1", "title": "Mark 1:1–8", "titleKo": "마가복음 1:1–8", "focus": "Focus: Mark 1:1 — the beginning of the gospel of Jesus Christ, the Son of God.", "focusKo": "초점: 마가복음 1:1 — 예수 그리스도, 하나님의 아들의 복음의 시작.", "theme": "Gospel beginning, wilderness, witness, identity.", "themeKo": "복음의 시작, 광야, 증언, 정체성.", "exe": "How does Mark’s opening sentence frame the entire Gospel as proclamation rather than biography?", "exeKo": "마가의 첫 문장은 복음서 전체를 단순 전기가 아니라 선포로 어떻게 구성하는가?", "her": "How does this beginning invite students to rethink where true good news begins today?", "herKo": "이 시작은 오늘 학생들이 참된 좋은 소식이 어디에서 시작되는지를 어떻게 다시 생각하게 하는가?", "integration": "Mark begins the Gospel in wilderness witness so that readers learn Jesus’ identity through proclamation, preparation, and movement toward the cross.", "integrationKo": "마가는 광야의 증언 속에서 복음을 시작함으로써 독자들이 선포, 준비, 그리고 십자가를 향한 움직임 속에서 예수의 정체성을 배우게 한다."}, {"day": "Tuesday", "dayKo": "화요일", "id": "T2", "title": "Mark 10:35–45", "titleKo": "마가복음 10:35–45", "focus": "Focus: Mark 10:45 — the Son of Man came to serve and give his life as a ransom for many.", "focusKo": "초점: 마가복음 10:45 — 인자는 섬기고 많은 사람을 위하여 자기 목숨을 대속물로 주기 위해 왔다.", "theme": "Cruciform discipleship, service, ransom, status reversal.", "themeKo": "십자가 중심 제자도, 섬김, 대속, 지위의 역전.", "exe": "How does Jesus redefine greatness against the disciples’ request for status?", "exeKo": "예수는 지위를 요구하는 제자들의 요청에 맞서 위대함을 어떻게 재정의하는가?", "her": "Where does our classroom, church, or society still confuse greatness with power over others?", "herKo": "우리의 교실, 교회, 사회는 어디에서 아직도 위대함을 타인 위에 군림하는 힘과 혼동하는가?", "integration": "Mark 10:45 reveals that Jesus’ identity and discipleship are disclosed through serving rather than being served.", "integrationKo": "마가복음 10:45는 예수의 정체성과 제자도가 섬김을 받는 것이 아니라 섬기는 행위 속에서 드러난다는 것을 보여준다."}, {"day": "Tuesday", "dayKo": "화요일", "id": "T3", "title": "Matthew 1:1–17", "titleKo": "마태복음 1:1–17", "focus": "Focus: Matthew 1:1 — Jesus as son of David and son of Abraham.", "focusKo": "초점: 마태복음 1:1 — 다윗의 자손이며 아브라함의 자손인 예수.", "theme": "Genealogy, Israel’s story, fulfillment, covenant memory.", "themeKo": "족보, 이스라엘의 이야기, 성취, 언약적 기억.", "exe": "How does the genealogy locate Jesus within Israel’s covenant story?", "exeKo": "족보는 예수를 이스라엘의 언약 이야기 안에 어떻게 위치시키는가?", "her": "How can memory of the past become a space for mission rather than exclusion?", "herKo": "과거의 기억은 어떻게 배제가 아니라 선교를 위한 공간이 될 수 있는가?", "integration": "Matthew begins with genealogy to show that Jesus fulfills Israel’s story and opens Abraham’s promise toward the nations.", "integrationKo": "마태는 족보로 시작하여 예수가 이스라엘의 이야기를 성취하고 아브라함의 약속을 민족들을 향해 열어 간다는 것을 보여준다."}, {"day": "Tuesday", "dayKo": "화요일", "id": "T4", "title": "Matthew 5:1–12", "titleKo": "마태복음 5:1–12", "focus": "Focus: Beatitudes — kingdom righteousness and the formation of a new community.", "focusKo": "초점: 팔복 — 하나님 나라의 의와 새 공동체 형성.", "theme": "Kingdom righteousness, blessing, formation, mercy.", "themeKo": "하나님 나라의 의, 복, 형성, 긍휼.", "exe": "How do the Beatitudes define blessedness in contrast to ordinary social honor?", "exeKo": "팔복은 일반적인 사회적 명예와 대비하여 복을 어떻게 정의하는가?", "her": "Which beatitude most disrupts our current assumptions about success and value?", "herKo": "어떤 팔복이 성공과 가치에 대한 우리의 현재 전제를 가장 강하게 흔드는가?", "integration": "Matthew’s Beatitudes form a community whose righteousness is shaped by poverty of spirit, mercy, peacemaking, and endurance.", "integrationKo": "마태의 팔복은 심령의 가난, 긍휼, 화평케 함, 인내로 형성되는 의의 공동체를 만든다."}, {"day": "Tuesday", "dayKo": "화요일", "id": "T5", "title": "Matthew 28:16–20", "titleKo": "마태복음 28:16–20", "focus": "Focus: Great Commission — teaching all nations under Emmanuel presence.", "focusKo": "초점: 대위임령 — 임마누엘의 임재 아래 모든 민족을 가르침.", "theme": "Mission, teaching, authority, presence.", "themeKo": "선교, 가르침, 권위, 임재.", "exe": "How does Matthew conclude by joining authority, teaching, nations, and presence?", "exeKo": "마태는 권위, 가르침, 민족들, 임재를 연결하며 어떻게 결론을 맺는가?", "her": "What would it mean to teach as a community that lives under Jesus’ continuing presence?", "herKo": "예수의 지속적인 임재 아래 살아가는 공동체로서 가르친다는 것은 무엇을 의미하는가?", "integration": "Matthew ends by sending the teaching community to all nations under the promise that Jesus remains with them.", "integrationKo": "마태는 예수가 그들과 함께하신다는 약속 아래 가르침의 공동체를 모든 민족에게 보내며 끝난다."}, {"day": "Friday", "dayKo": "금요일", "id": "F1", "title": "Luke 4:16–21", "titleKo": "누가복음 4:16–21", "focus": "Focus: Jesus’ Nazareth sermon — good news, release, sight, freedom.", "focusKo": "초점: 예수의 나사렛 설교 — 좋은 소식, 해방, 시력 회복, 자유.", "theme": "Spirit, release, reversal, mission to the margins.", "themeKo": "성령, 해방, 역전, 주변을 향한 선교.", "exe": "How does Luke present Jesus’ mission through Isaiah’s language of release and restoration?", "exeKo": "누가는 이사야의 해방과 회복의 언어를 통해 예수의 사명을 어떻게 제시하는가?", "her": "Where must good news become concrete release rather than abstract religious language?", "herKo": "좋은 소식은 어디에서 추상적 종교 언어가 아니라 구체적 해방이 되어야 하는가?", "integration": "Luke presents Jesus as the Spirit-led Savior whose mission moves toward the poor, captive, blind, and oppressed.", "integrationKo": "누가는 예수를 가난한 자, 포로 된 자, 눈먼 자, 억눌린 자를 향해 움직이는 성령 충만한 구원자로 제시한다."}, {"day": "Friday", "dayKo": "금요일", "id": "F2", "title": "Luke 15:11–32", "titleKo": "누가복음 15:11–32", "focus": "Focus: Lost son, elder son, and the father’s restoring mercy.", "focusKo": "초점: 잃은 아들, 큰아들, 그리고 아버지의 회복시키는 긍휼.", "theme": "Mercy, return, resentment, restored belonging.", "themeKo": "긍휼, 돌아옴, 분노, 회복된 소속.", "exe": "How does the parable redefine lostness through both sons rather than only the younger son?", "exeKo": "이 비유는 둘째 아들만이 아니라 두 아들을 통해 잃어버림을 어떻게 재정의하는가?", "her": "Where do we stand outside the house even while claiming to belong inside?", "herKo": "우리는 어디에서 안에 속했다고 주장하면서도 실제로는 집 밖에 서 있는가?", "integration": "Luke 15 shows that God’s mercy restores the outsider and confronts the insider who refuses shared joy.", "integrationKo": "누가복음 15장은 하나님의 긍휼이 바깥에 있던 이를 회복시키고, 함께 기뻐하기를 거부하는 안쪽 사람을 직면하게 함을 보여준다."}, {"day": "Friday", "dayKo": "금요일", "id": "F3", "title": "John 1:1–18", "titleKo": "요한복음 1:1–18", "focus": "Focus: The Logos became flesh and dwelt among us.", "focusKo": "초점: 로고스가 육신이 되어 우리 가운데 거하셨다.", "theme": "Logos, incarnation, light, witness, dwelling.", "themeKo": "로고스, 성육신, 빛, 증언, 거함.", "exe": "How does John’s prologue frame Jesus’ identity through creation, light, flesh, and dwelling?", "exeKo": "요한의 서문은 창조, 빛, 육신, 거함을 통해 예수의 정체성을 어떻게 구성하는가?", "her": "How does incarnation reshape our understanding of God’s presence in embodied human life?", "herKo": "성육신은 몸을 입은 인간 삶 속 하나님의 임재에 대한 우리의 이해를 어떻게 새롭게 하는가?", "integration": "John presents Jesus as the incarnate Logos whose dwelling among us reveals God’s glory and gives life.", "integrationKo": "요한은 예수를 우리 가운데 거하시며 하나님의 영광을 드러내고 생명을 주시는 성육신한 로고스로 제시한다."}, {"day": "Friday", "dayKo": "금요일", "id": "F4", "title": "John 13:1–17, 34–35", "titleKo": "요한복음 13:1–17, 34–35", "focus": "Focus: Footwashing and the new commandment of love.", "focusKo": "초점: 발 씻김과 사랑의 새 계명.", "theme": "Love, service, embodied humility, community identity.", "themeKo": "사랑, 섬김, 몸으로 드러나는 겸손, 공동체 정체성.", "exe": "How does footwashing interpret Jesus’ love before the cross?", "exeKo": "발 씻김은 십자가 이전에 예수의 사랑을 어떻게 해석하는가?", "her": "What practice of humble service would make our community recognizable as Jesus’ disciples?", "herKo": "어떤 겸손한 섬김의 실천이 우리 공동체를 예수의 제자로 알아볼 수 있게 하는가?", "integration": "John 13 shows that abiding love becomes visible through embodied service and mutual recognition.", "integrationKo": "요한복음 13장은 거하는 사랑이 몸으로 드러나는 섬김과 상호 인정 속에서 보이게 됨을 보여준다."}, {"day": "Friday", "dayKo": "금요일", "id": "F5", "title": "John 20:30–31", "titleKo": "요한복음 20:30–31", "focus": "Focus: Written purpose — believing and having life in Jesus’ name.", "focusKo": "초점: 기록 목적 — 예수의 이름을 믿고 생명을 얻게 함.", "theme": "Belief, life, written witness, reader response.", "themeKo": "믿음, 생명, 기록된 증언, 독자의 응답.", "exe": "How does John explicitly state the purpose of his written Gospel?", "exeKo": "요한은 자신의 기록된 복음서의 목적을 어떻게 명시하는가?", "her": "How can belief move beyond mental agreement into life and continuing witness?", "herKo": "믿음은 어떻게 지적 동의를 넘어 생명과 지속적인 증언으로 나아가는가?", "integration": "John writes so that readers may move through signs into belief, life, and continuing witness in Jesus’ name.", "integrationKo": "요한은 독자들이 표적을 통해 믿음, 생명, 예수의 이름 안에서의 지속적인 증언으로 나아가도록 기록한다."}];
+const FIELDS = [["pre_assumption", "What assumption am I bringing to this text?", "내가 이미 가지고 온 전제는 무엇인가?"], ["pre_expectation", "What do I expect this text to say?", "나는 이 본문이 무엇을 말할 것이라고 기대하는가?"], ["pre_danger", "Why might that expectation be dangerous?", "그 기대가 왜 위험할 수 있는가?"], ["stage_observe_words", "3 repeated/key words", "반복어/핵심어 3개"], ["stage_observe_movement", "1 movement in the passage", "본문 안의 움직임 1개"], ["stage_observe_tension", "1 tension/conflict", "긴장/갈등 1개"], ["individual_exe", "Exegetical Question — answer in your own language", "주해 질문 — 자기 언어로 답변"], ["stage_interpret_intent", "Authorial intent / in-text meaning", "저자 의도 / 본문 내부 의미"], ["stage_interpret_function", "Narrative function", "서사적 기능"], ["gap_historical", "Historical Gap: What first-century world must be understood?", "역사적 간격: 어떤 1세기 세계를 이해해야 하는가?"], ["individual_her", "Hermeneutical Question — answer in your own language", "해석학 질문 — 자기 언어로 답변"], ["stage_bridge_continuity", "Continuity: What carries over?", "연속성: 오늘로 이어지는 것은 무엇인가?"], ["stage_bridge_discontinuity", "Discontinuity: What must not be carried over directly?", "불연속성: 오늘로 그대로 가져오면 안 되는 것은 무엇인가?"], ["gap_literary", "Literary Gap: What is this Gospel’s distinctive voice?", "문학적 간격: 이 복음서의 고유한 목소리는 무엇인가?"], ["gap_cultural", "Cultural Gap: What modern assumption might distort the text?", "문화적 간격: 어떤 현대 전제가 본문을 왜곡할 수 있는가?"], ["stage_bridge_statement", "Responsible bridge statement", "책임 있는 연결 문장"], ["stage_embody_perception", "What changes in perception?", "인식은 어떻게 바뀌는가?"], ["stage_embody_desire", "What changes in desire?", "욕망은 어떻게 바뀌는가?"], ["stage_embody_behavior", "What changes in behavior?", "행동은 어떻게 바뀌는가?"], ["stage_embody_community", "What changes in community life?", "공동체 삶은 어떻게 바뀌는가?"], ["gap_formation", "Formation Gap: What change does the text invite?", "형성의 간격: 본문은 어떤 변화로 초대하는가?"], ["group_a", "Group A — Textual Claim: “This text means…”", "A그룹 — 본문 의미 주장: “이 본문은 …을 의미한다”"], ["group_b", "Group B — Interpretive Challenge: “That interpretation misses…”", "B그룹 — 해석 도전: “그 해석은 …을 놓치고 있다”"], ["integrated", "Integrated Claim — Resolve the tension in one sentence", "통합 명제 — 긴장을 해결한 한 문장"], ["move_before", "Before: Where was I located in this issue?", "이전: 나는 이 문제에서 어디에 있었는가?"], ["move_disruption", "Disruption: What challenged me?", "흔들림: 무엇이 나를 도전했는가?"], ["move_after", "After: Where am I now?", "이후: 나는 지금 어디에 있는가?"], ["move_next", "Next: Where am I sent?", "다음: 나는 어디로 보냄받는가?"], ["praxis_act", "This week I will act", "이번 주 내가 할 구체적 행동"], ["praxis_toward", "Toward whom?", "누구를 향해?"], ["praxis_cost", "What cost might this require?", "무엇을 대가로 치를 수 있는가?"], ["praxis_resistance", "What resistance do I expect?", "어떤 저항이 예상되는가?"], ["praxis_accountability", "Who will know and help me stay accountable?", "누가 이 실천을 알고 확인할 것인가?"], ["failure_missed", "What did our group miss?", "우리 그룹은 무엇을 놓쳤는가?"], ["failure_fast", "Where did we move too quickly into application?", "우리는 어디에서 너무 빨리 적용으로 이동했는가?"], ["failure_other", "What did another group show us?", "다른 그룹이 우리에게 보여준 것은 무엇인가?"], ["final_no_longer", "Because of this text, I can no longer believe ________.", "이 본문 때문에, 나는 더 이상 ________ 믿을 수 없다."], ["final_must_live", "I must now live ________.", "나는 이제 ________ 살아야 한다."]];
 let LANG = 'en';
-let current = TEXTS[0].id;
+let current = 'T1';
 
-// 1) Create a Google Apps Script Web App.
-// 2) Paste the deployed Web App URL below.
-// 3) Keep this file on GitHub Pages and paste the GitHub link into HDLMS.
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ0AZBG5baWYnzw9szIRdn1WZOEE-4frgjWcPS3yLmEvVgZFadEQdUCziSdAxGe61C/exec';
+const UI = {
+  en: {
+    title:'Understanding the Bible — Week 9 Active Learning App',
+    subtitle:'Stable version · All blanks open · Continuous typing · Local autosave · Google submission',
+    overview:'Overview', workspace:'Student Workspace', rubric:'Rubric',
+    name:'Student Name / ID', group:'Group',
+    saveNote:'Typing is saved automatically in this browser. Partial Google submission is allowed.',
+    stableLabel:'Stable Input Mode:', stableText:'All blanks are open. Typing does not re-render the page. Use Google Submit to send answers to the professor.',
+    overviewTitle:'Active Learning Template',
+    overviewText:'This app converts Week 9 adaptive pre-class content into an in-class active learning system. Students move from individual preparation to group interpretation, integrated synthesis, presentation, feedback, and exit reflection.',
+    rhythmTitle:'Class Rhythm', rhythmText:'Tuesday handles Mark and Matthew. Friday handles Luke and John. Each day uses five texts.',
+    tue:'Tuesday Texts', fri:'Friday Texts',
+    focus:'Focus', theme:'Theme', model:'Model Integrated Sentence',
+    stage0:'Stage 0: Pre-Answer Disruption', stage1:'Stage 1: Observe — Stay Inside the Text', stage2:'Stage 2: Interpret — Reconstruct Emic Meaning', stage3:'Stage 3: Bridge — Build a Responsible Bridge', stage4:'Stage 4: Embody — Name the Direction of Change',
+    groupStage:'Group Integration', movement:'WHERE Movement Map', praxis:'Covenantal Praxis Engine', failure:'Failure Loop + Final Lock',
+    exeQuestion:'Exegetical Question', herQuestion:'Hermeneutical Question', intQuestion:'Integration Question',
+    refresh:'Refresh Progress', submitCurrent:'Submit Current Text (Partial OK)', submitAll:'Submit All (Partial OK)', copy:'Copy Current Responses', download:'Download All JSON', clear:'Clear Current Text',
+    submitting:'Submitting...', sent:'Submission request sent. Check Google Sheet for a new row.', error:'Submission error. Use Download JSON as backup.', copied:'Copied.', confirmClear:'Clear this text’s saved answers?', complete:'Complete'
+  },
+  ko: {
+    title:'성경의 이해 — 9주차 액티브 러닝 앱',
+    subtitle:'안정 버전 · 모든 빈칸 열림 · 연속 타이핑 · 로컬 자동저장 · Google 제출',
+    overview:'개요', workspace:'학생 워크스페이스', rubric:'루브릭',
+    name:'학생 이름 / 학번', group:'그룹',
+    saveNote:'입력 내용은 이 브라우저에 자동 저장됩니다. 부분 Google 제출이 가능합니다.',
+    stableLabel:'안정 입력 모드:', stableText:'모든 빈칸이 열려 있습니다. 입력 중 화면이 다시 그려지지 않습니다. Google 제출 버튼으로 교수자에게 답변을 보냅니다.',
+    overviewTitle:'Active Learning Template',
+    overviewText:'이 앱은 9주차 어댑티브 사전학습 콘텐츠를 수업 중 액티브 러닝 시스템으로 전환합니다. 학생들은 개인 준비에서 그룹 해석, 통합 종합, 발표, 피드백, 종료 성찰로 이동합니다.',
+    rhythmTitle:'수업 리듬', rhythmText:'화요일은 마가와 마태를 다루고, 금요일은 누가와 요한을 다룹니다. 각 수업일은 다섯 개의 본문을 사용합니다.',
+    tue:'화요일 본문', fri:'금요일 본문',
+    focus:'초점', theme:'주제', model:'모범 통합 문장',
+    stage0:'0단계: 전제 흔들기', stage1:'1단계: 관찰 — 본문 안에 머물기', stage2:'2단계: 해석 — 에믹 의미 재구성', stage3:'3단계: 연결 — 책임 있는 다리 만들기', stage4:'4단계: 체화 — 변화의 방향 명명하기',
+    groupStage:'그룹 통합', movement:'WHERE 움직임 지도', praxis:'언약적 실천 엔진', failure:'실패 루프와 최종 잠금',
+    exeQuestion:'주해 질문', herQuestion:'해석학 질문', intQuestion:'통합 질문',
+    refresh:'진행률 새로고침', submitCurrent:'현재 본문 부분 제출 가능', submitAll:'전체 부분 제출 가능', copy:'현재 본문 응답 복사', download:'전체 JSON 다운로드', clear:'현재 본문 응답 삭제',
+    submitting:'제출 중입니다...', sent:'제출 요청을 보냈습니다. Google Sheet에서 새 행을 확인하세요.', error:'제출 오류가 발생했습니다. JSON 다운로드를 백업으로 사용하세요.', copied:'복사되었습니다.', confirmClear:'이 본문의 저장된 답변을 삭제할까요?', complete:'완료'
+  }
+};
 
-function t(obj, enKey, koKey){ return LANG === 'ko' ? obj[koKey] : obj[enKey]; }
+function el(id){return document.getElementById(id)}
+function tx(obj,en,ko){return LANG==='ko' ? obj[ko] : obj[en]}
+function storageKey(id, field){return 'ub_w9_stable_'+id+'_'+field}
+function saveField(id, field, value){localStorage.setItem(storageKey(id,field),value); updateProgressOnly(id)}
+function loadField(id, field){return localStorage.getItem(storageKey(id,field)) || ''}
+function saveIdentity(){localStorage.setItem('ub_w9_studentName',el('studentName').value);localStorage.setItem('ub_w9_studentGroup',el('studentGroup').value)}
+function loadIdentity(){el('studentName').value=localStorage.getItem('ub_w9_studentName')||'';el('studentGroup').value=localStorage.getItem('ub_w9_studentGroup')||''}
+function showStatus(msg,type=''){const box=el('submitStatus');box.className='notice '+(type||'');box.textContent=msg;box.classList.remove('hidden')}
+function completed(id){return FIELDS.filter(f=>loadField(id,f[0]).trim()).length}
+function progressPct(id){return Math.round((completed(id)/FIELDS.length)*100)}
+function updateProgressOnly(id){const fill=el('progressFill');const badge=el('progressBadge'); if(fill&&badge&&id===current){const pct=progressPct(id); fill.style.width=pct+'%'; badge.textContent=UI[LANG].complete+': '+pct+'%';}}
 
 function setLang(lang){
-  LANG = lang;
-  document.getElementById('enBtn').classList.toggle('active', lang==='en');
-  document.getElementById('koBtn').classList.toggle('active', lang==='ko');
-  document.querySelectorAll('[data-en]').forEach(el => {
-    el.textContent = lang === 'ko' ? el.dataset.ko : el.dataset.en;
-  });
-  renderLists();
+  LANG=lang;
+  el('enBtn').classList.toggle('active',lang==='en'); el('koBtn').classList.toggle('active',lang==='ko');
+  const u=UI[LANG];
+  el('appTitle').textContent=u.title; el('appSubtitle').textContent=u.subtitle;
+  el('overviewBtn').textContent=u.overview; el('workspaceBtn').textContent=u.workspace; el('rubricBtn').textContent=u.rubric;
+  el('nameLabel').textContent=u.name; el('groupLabel').textContent=u.group; el('saveNote').textContent=u.saveNote;
+  el('stableLabel').textContent=u.stableLabel; el('stableText').textContent=u.stableText;
+  el('overviewTitle').textContent=u.overviewTitle; el('overviewText').textContent=u.overviewText;
+  el('rhythmTitle').textContent=u.rhythmTitle; el('rhythmText').textContent=u.rhythmText;
+  el('tueTitle').textContent=u.tue; el('friTitle').textContent=u.fri; el('rubricTitle').textContent=u.rubric;
+  renderLists(); renderText(current);
 }
 
 function showPanel(id){
-  ['overview','workspace','rubric'].forEach(x=>{
-    document.getElementById(x).classList.toggle('hidden', x!==id);
-  });
-  if(id==='workspace'){ renderLists(); }
-}
-
-function storageKey(id, field){ return `ub_w9_active_${id}_${field}`; }
-function saveField(id, field, value){ localStorage.setItem(storageKey(id, field), value); }
-function loadField(id, field){ return localStorage.getItem(storageKey(id, field)) || ''; }
-
-function saveIdentity(){
-  localStorage.setItem('ub_w9_student_name', document.getElementById('studentName')?.value || '');
-  localStorage.setItem('ub_w9_student_group', document.getElementById('studentGroup')?.value || '');
-}
-function loadIdentity(){
-  const n = document.getElementById('studentName');
-  const g = document.getElementById('studentGroup');
-  if(n) n.value = localStorage.getItem('ub_w9_student_name') || '';
-  if(g) g.value = localStorage.getItem('ub_w9_student_group') || '';
-}
-function showSubmitStatus(msg, isError=false){
-  const box = document.getElementById('submitStatus');
-  if(!box){ alert(msg); return; }
-  box.classList.remove('hidden');
-  box.style.borderColor = isError ? '#b65a4a' : '#74a889';
-  box.style.background = isError ? '#fff0ed' : '#edf8f1';
-  box.textContent = msg;
+  ['overview','workspace','rubric'].forEach(x=>el(x).classList.toggle('hidden',x!==id));
+  if(id==='workspace'){renderLists(); renderText(current)}
 }
 
 function renderLists(){
-  const tue = document.getElementById('tuesdayList');
-  const fri = document.getElementById('fridayList');
-  tue.innerHTML = ''; fri.innerHTML = '';
-  TEXTS.forEach(x => {
-    const b = document.createElement('button');
-    b.className = 'textBtn' + (x.id===current ? ' active':'');
-    b.innerHTML = `<b>${x.id}</b> · ${t(x,'title','titleKo')}<br><span class="small">${t(x,'theme','themeKo')}</span>`;
-    b.onclick = ()=>{ current=x.id; renderLists(); };
-    (x.day === 'Tuesday' ? tue : fri).appendChild(b);
+  const tue=el('tuesdayList'), fri=el('fridayList'); tue.innerHTML=''; fri.innerHTML='';
+  TEXTS.forEach(x=>{
+    const b=document.createElement('button'); b.className='textBtn'+(x.id===current?' active':'');
+    b.innerHTML='<b>'+x.id+'</b> · '+tx(x,'title','titleKo')+'<br><span class="small">'+tx(x,'theme','themeKo')+'</span>';
+    b.onclick=()=>{current=x.id; renderLists(); renderText(current)};
+    (x.day==='Tuesday'?tue:fri).appendChild(b);
   });
 }
 
-function completed(id, fields){
-  return fields.every(f => (loadField(id,f).trim().length > 0));
+function fieldHTML(textId, field, labelEn, labelKo){
+  const label = LANG==='ko' ? labelKo : labelEn;
+  return '<label for="'+textId+'_'+field+'">'+label+'</label><textarea id="'+textId+'_'+field+'" data-text="'+textId+'" data-field="'+field+'" placeholder="'+label.replace(/"/g,'&quot;')+'"></textarea>';
 }
 
-function{
-  const x = TEXTS.find(z=>z.id===current);
-  const card = document.getElementById('textCard');
-  const dDone = completed(x.id, ['pre_assumption','pre_expectation','pre_danger']);
-  const s1Done = completed(x.id, ['stage_observe_words','stage_observe_movement','stage_observe_tension']);
-  const s2Done = completed(x.id, ['stage_interpret_intent','stage_interpret_function','gap_historical']);
-  const s3Done = completed(x.id, ['stage_bridge_continuity','stage_bridge_discontinuity','stage_bridge_statement','gap_literary','gap_cultural']);
-  const s4Done = completed(x.id, ['stage_embody_perception','stage_embody_desire','stage_embody_behavior','stage_embody_community','gap_formation']);
-  const groupDone = completed(x.id, ['group_a','group_b','integrated']);
-  const praxisDone = completed(x.id, ['praxis_act','praxis_toward','praxis_cost','praxis_resistance','praxis_accountability']);
-  const finalDone = completed(x.id, ['final_no_longer','final_must_live']);
-  const count = [dDone,s1Done,s2Done,s3Done,s4Done,groupDone,praxisDone,finalDone].filter(Boolean).length;
-  const pct = Math.round((count/8)*100);
+function renderText(id){
+  current=id;
+  const x=TEXTS.find(z=>z.id===id);
+  const u=UI[LANG];
+  const pct=progressPct(id);
 
-  card.innerHTML = `
+  const stage0=['pre_assumption','pre_expectation','pre_danger'];
+  const stage1=['stage_observe_words','stage_observe_movement','stage_observe_tension'];
+  const stage2=['individual_exe','stage_interpret_intent','stage_interpret_function','gap_historical'];
+  const stage3=['individual_her','stage_bridge_continuity','stage_bridge_discontinuity','gap_literary','gap_cultural','stage_bridge_statement'];
+  const stage4=['stage_embody_perception','stage_embody_desire','stage_embody_behavior','stage_embody_community','gap_formation'];
+  const group=['group_a','group_b','integrated'];
+  const move=['move_before','move_disruption','move_after','move_next'];
+  const praxis=['praxis_act','praxis_toward','praxis_cost','praxis_resistance','praxis_accountability'];
+  const failure=['failure_missed','failure_fast','failure_other','final_no_longer','final_must_live'];
+
+  function section(title, keys, extra=''){
+    return '<div class="card"><h3>'+title+'</h3>'+extra+keys.map(k=>{const f=FIELDS.find(v=>v[0]===k);return fieldHTML(id,f[0],f[1],f[2])}).join('')+'</div>';
+  }
+
+  el('textCard').innerHTML = `
     <div class="card">
-      <h2>${x.id} · ${t(x,'title','titleKo')}</h2>
-      <p><b>${LANG==='ko'?'초점':'Focus'}:</b> ${t(x,'focus','focusKo').replace(/^Focus: |^초점: /,'')}</p>
-      <div class="progressBar"><div class="progressFill" style="width:${pct}%"></div></div>
-      <span class="badge">${LANG==='ko'?'완료':'Complete'}: ${pct}%</span>
+      <h2>${x.id} · ${tx(x,'title','titleKo')}</h2>
+      <p><b>${u.focus}:</b> ${tx(x,'focus','focusKo').replace(/^Focus: |^초점: /,'')}</p>
+      <div style="height:10px;background:var(--soft);border-radius:999px;overflow:hidden;margin:12px 0"><div id="progressFill" style="height:100%;width:${pct}%;background:var(--teal)"></div></div>
+      <span class="badge" id="progressBadge">${u.complete}: ${pct}%</span>
       <div class="meta">
-        <div><b>${LANG==='ko'?'주제':'Theme'}</b><br>${t(x,'theme','themeKo')}</div>
-        <div><b>${LANG==='ko'?'모범 통합 문장':'Model Integrated Sentence'}</b><br>${t(x,'integration','integrationKo')}</div>
+        <div><b>${u.theme}</b><br>${tx(x,'theme','themeKo')}</div>
+        <div><b>${u.model}</b><br>${tx(x,'integration','integrationKo')}</div>
       </div>
     </div>
-
-    <div class="card">
-      <h3>${LANG==='ko'?'0단계: 전제 흔들기':'Stage 0: Pre-Answer Disruption'}</h3>
-      <p class="small">${LANG==='ko'?'답하기 전에, 이미 틀렸을 수 있는 전제를 먼저 드러내라.':'Before answering, expose the assumption that may already be wrong.'}</p>
-      <label>${LANG==='ko'?'내가 이미 가지고 온 전제는 무엇인가?':'What assumption am I bringing to this text?'}</label>
-      <textarea oninput="saveField('${x.id}','pre_assumption',this.value)">${loadField(x.id,'pre_assumption')}</textarea>
-      <label>${LANG==='ko'?'나는 이 본문이 무엇을 말할 것이라고 기대하는가?':'What do I expect this text to say?'}</label>
-      <textarea oninput="saveField('${x.id}','pre_expectation',this.value)">${loadField(x.id,'pre_expectation')}</textarea>
-      <label>${LANG==='ko'?'그 기대가 왜 위험할 수 있는가?':'Why might that expectation be dangerous?'}</label>
-      <textarea oninput="saveField('${x.id}','pre_danger',this.value)">${loadField(x.id,'pre_danger')}</textarea>
-    </div>
-
-    <div class="card ">
-      <h3>${LANG==='ko'?'1단계: 관찰 — 본문 안에 머물기':'Stage 1: Observe — Stay Inside the Text'}</h3>
-      <label>${LANG==='ko'?'반복어/핵심어 3개':'3 repeated/key words'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_observe_words',this.value)">${loadField(x.id,'stage_observe_words')}</textarea>
-      <label>${LANG==='ko'?'본문 안의 움직임 1개':'1 movement in the passage'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_observe_movement',this.value)">${loadField(x.id,'stage_observe_movement')}</textarea>
-      <label>${LANG==='ko'?'긴장/갈등 1개':'1 tension/conflict'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_observe_tension',this.value)">${loadField(x.id,'stage_observe_tension')}</textarea>
-    </div>
-
-    <div class="card ">
-      <h3>${LANG==='ko'?'2단계: 해석 — 에믹 의미 재구성':'Stage 2: Interpret — Reconstruct Emic Meaning'}</h3>
-      <label>${LANG==='ko'?'주해 질문':'Exegetical Question'}</label>
-      <p>${t(x,'exe','exeKo')}</p>
-      <textarea  oninput="saveField('${x.id}','individual_exe',this.value)">${loadField(x.id,'individual_exe')}</textarea>
-      <label>${LANG==='ko'?'저자 의도 / 본문 내부 의미':'Authorial intent / in-text meaning'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_interpret_intent',this.value)">${loadField(x.id,'stage_interpret_intent')}</textarea>
-      <label>${LANG==='ko'?'서사적 기능':'Narrative function'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_interpret_function',this.value)">${loadField(x.id,'stage_interpret_function')}</textarea>
-      <label>${LANG==='ko'?'역사적 간격: 어떤 1세기 세계를 이해해야 하는가?':'Historical Gap: What first-century world must be understood?'}</label>
-      <textarea  oninput="saveField('${x.id}','gap_historical',this.value)">${loadField(x.id,'gap_historical')}</textarea>
-    </div>
-
-    <div class="card ">
-      <h3>${LANG==='ko'?'3단계: 연결 — 책임 있는 다리 만들기':'Stage 3: Bridge — Build a Responsible Bridge'}</h3>
-      <label>${LANG==='ko'?'해석학 질문':'Hermeneutical Question'}</label>
-      <p>${t(x,'her','herKo')}</p>
-      <textarea  oninput="saveField('${x.id}','individual_her',this.value)">${loadField(x.id,'individual_her')}</textarea>
-      <label>${LANG==='ko'?'연속성: 오늘로 이어지는 것은 무엇인가?':'Continuity: What carries over?'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_bridge_continuity',this.value)">${loadField(x.id,'stage_bridge_continuity')}</textarea>
-      <label>${LANG==='ko'?'불연속성: 오늘로 그대로 가져오면 안 되는 것은 무엇인가?':'Discontinuity: What must not be carried over directly?'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_bridge_discontinuity',this.value)">${loadField(x.id,'stage_bridge_discontinuity')}</textarea>
-      <label>${LANG==='ko'?'문학적 간격: 이 복음서의 고유한 목소리는 무엇인가?':'Literary Gap: What is this Gospel’s distinctive voice?'}</label>
-      <textarea  oninput="saveField('${x.id}','gap_literary',this.value)">${loadField(x.id,'gap_literary')}</textarea>
-      <label>${LANG==='ko'?'문화적 간격: 어떤 현대 전제가 본문을 왜곡할 수 있는가?':'Cultural Gap: What modern assumption might distort the text?'}</label>
-      <textarea  oninput="saveField('${x.id}','gap_cultural',this.value)">${loadField(x.id,'gap_cultural')}</textarea>
-      <label>${LANG==='ko'?'책임 있는 연결 문장':'Responsible bridge statement'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_bridge_statement',this.value)">${loadField(x.id,'stage_bridge_statement')}</textarea>
-    </div>
-
-    <div class="card ">
-      <h3>${LANG==='ko'?'4단계: 체화 — 변화의 방향 명명하기':'Stage 4: Embody — Name the Direction of Change'}</h3>
-      <label>${LANG==='ko'?'인식은 어떻게 바뀌는가?':'What changes in perception?'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_embody_perception',this.value)">${loadField(x.id,'stage_embody_perception')}</textarea>
-      <label>${LANG==='ko'?'욕망은 어떻게 바뀌는가?':'What changes in desire?'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_embody_desire',this.value)">${loadField(x.id,'stage_embody_desire')}</textarea>
-      <label>${LANG==='ko'?'행동은 어떻게 바뀌는가?':'What changes in behavior?'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_embody_behavior',this.value)">${loadField(x.id,'stage_embody_behavior')}</textarea>
-      <label>${LANG==='ko'?'공동체 삶은 어떻게 바뀌는가?':'What changes in community life?'}</label>
-      <textarea  oninput="saveField('${x.id}','stage_embody_community',this.value)">${loadField(x.id,'stage_embody_community')}</textarea>
-      <label>${LANG==='ko'?'형성의 간격: 본문은 나/우리를 어떤 변화로 초대하는가?':'Formation Gap: What change does the text invite?'}</label>
-      <textarea  oninput="saveField('${x.id}','gap_formation',this.value)">${loadField(x.id,'gap_formation')}</textarea>
-    </div>
-
-    <div class="two ">
-      <div class="card">
-        <h3>${LANG==='ko'?'A그룹 — 본문 의미 주장':'Group A — Textual Claim'}</h3>
-        <p class="small">${LANG==='ko'?'“이 본문은 …을 의미한다”를 한 문장으로 주장하라.':'Argue in one sentence: “This text means…”'}</p>
-        <textarea  oninput="saveField('${x.id}','group_a',this.value)">${loadField(x.id,'group_a')}</textarea>
-      </div>
-      <div class="card">
-        <h3>${LANG==='ko'?'B그룹 — 해석 도전':'Group B — Interpretive Challenge'}</h3>
-        <p class="small">${LANG==='ko'?'“그 해석은 …을 놓치고 있다”를 한 문장으로 도전하라.':'Challenge in one sentence: “That interpretation misses…”'}</p>
-        <textarea  oninput="saveField('${x.id}','group_b',this.value)">${loadField(x.id,'group_b')}</textarea>
-      </div>
-    </div>
-
-    <div class="card ">
-      <h3>${LANG==='ko'?'통합 명제 — 긴장 해결':'Integrated Claim — Resolve the Tension'}</h3>
-      <p class="small">${LANG==='ko'?'A와 B를 단순 결합하지 말고, 긴장을 해결한 하나의 명제를 작성하라.':'Do not merely combine A and B. Resolve the tension in one claim.'}</p>
-      <textarea  oninput="saveField('${x.id}','integrated',this.value)">${loadField(x.id,'integrated')}</textarea>
-    </div>
-
-    <div class="card ">
-      <h3>${LANG==='ko'?'움직임 지도':'WHERE Movement Map'}</h3>
-      <label>${LANG==='ko'?'이전: 나는 이 문제에서 어디에 있었는가?':'Before: Where was I located in this issue?'}</label>
-      <textarea  oninput="saveField('${x.id}','move_before',this.value)">${loadField(x.id,'move_before')}</textarea>
-      <label>${LANG==='ko'?'흔들림: 무엇이 나를 도전했는가?':'Disruption: What challenged me?'}</label>
-      <textarea  oninput="saveField('${x.id}','move_disruption',this.value)">${loadField(x.id,'move_disruption')}</textarea>
-      <label>${LANG==='ko'?'이후: 나는 지금 어디에 있는가?':'After: Where am I now?'}</label>
-      <textarea  oninput="saveField('${x.id}','move_after',this.value)">${loadField(x.id,'move_after')}</textarea>
-      <label>${LANG==='ko'?'다음: 나는 어디로 보냄받는가?':'Next: Where am I sent?'}</label>
-      <textarea  oninput="saveField('${x.id}','move_next',this.value)">${loadField(x.id,'move_next')}</textarea>
-    </div>
-
-    <div class="card commitment ">
-      <h3>${LANG==='ko'?'언약적 실천 엔진':'Covenantal Praxis Engine'}</h3>
-      <label>${LANG==='ko'?'이번 주 내가 할 구체적 행동':'This week I will act'}</label>
-      <textarea  oninput="saveField('${x.id}','praxis_act',this.value)">${loadField(x.id,'praxis_act')}</textarea>
-      <label>${LANG==='ko'?'누구를 향해?':'Toward whom?'}</label>
-      <textarea  oninput="saveField('${x.id}','praxis_toward',this.value)">${loadField(x.id,'praxis_toward')}</textarea>
-      <label>${LANG==='ko'?'무엇을 대가로 치를 수 있는가?':'What cost might this require?'}</label>
-      <textarea  oninput="saveField('${x.id}','praxis_cost',this.value)">${loadField(x.id,'praxis_cost')}</textarea>
-      <label>${LANG==='ko'?'어떤 저항이 예상되는가?':'What resistance do I expect?'}</label>
-      <textarea  oninput="saveField('${x.id}','praxis_resistance',this.value)">${loadField(x.id,'praxis_resistance')}</textarea>
-      <label>${LANG==='ko'?'누가 이 실천을 알고 확인할 것인가?':'Who will know and help me stay accountable?'}</label>
-      <textarea  oninput="saveField('${x.id}','praxis_accountability',this.value)">${loadField(x.id,'praxis_accountability')}</textarea>
-    </div>
-
-    <div class="card ">
-      <h3>${LANG==='ko'?'실패 루프와 최종 잠금':'Failure Loop + Final Lock'}</h3>
-      <label>${LANG==='ko'?'우리 그룹은 무엇을 놓쳤는가?':'What did our group miss?'}</label>
-      <textarea  oninput="saveField('${x.id}','failure_missed',this.value)">${loadField(x.id,'failure_missed')}</textarea>
-      <label>${LANG==='ko'?'우리는 어디에서 너무 빨리 적용으로 이동했는가?':'Where did we move too quickly into application?'}</label>
-      <textarea  oninput="saveField('${x.id}','failure_fast',this.value)">${loadField(x.id,'failure_fast')}</textarea>
-      <label>${LANG==='ko'?'다른 그룹이 우리에게 보여준 것은 무엇인가?':'What did another group show us?'}</label>
-      <textarea  oninput="saveField('${x.id}','failure_other',this.value)">${loadField(x.id,'failure_other')}</textarea>
-      <label>${LANG==='ko'?'이 본문 때문에, 나는 더 이상 ________ 믿을 수 없다.':'Because of this text, I can no longer believe ________.'}</label>
-      <textarea  oninput="saveField('${x.id}','final_no_longer',this.value)">${loadField(x.id,'final_no_longer')}</textarea>
-      <label>${LANG==='ko'?'나는 이제 ________ 살아야 한다.':'I must now live ________.'}</label>
-      <textarea  oninput="saveField('${x.id}','final_must_live',this.value)">${loadField(x.id,'final_must_live')}</textarea>
-    </div>
-
+    <div class="card stage-title"><h3>${u.exeQuestion}</h3><p>${tx(x,'exe','exeKo')}</p><h3>${u.herQuestion}</h3><p>${tx(x,'her','herKo')}</p><h3>${u.intQuestion}</h3><p>${tx(x,'integration','integrationKo')}</p></div>
+    ${section(u.stage0,stage0)}
+    ${section(u.stage1,stage1)}
+    ${section(u.stage2,stage2,'<p class="small">'+tx(x,'exe','exeKo')+'</p>')}
+    ${section(u.stage3,stage3,'<p class="small">'+tx(x,'her','herKo')+'</p>')}
+    ${section(u.stage4,stage4)}
+    ${section(u.groupStage,group)}
+    ${section(u.movement,move)}
+    ${section(u.praxis,praxis)}
+    ${section(u.failure,failure)}
     <div class="footerBtns">
-      <button onclick="renderText()">${LANG==='ko'?'진행률 새로고침':'Refresh Progress'}</button>
-      <button onclick="copyCurrent('${x.id}')">${LANG==='ko'?'현재 본문 응답 복사':'Copy Current Responses'}</button>
-      <button onclick="downloadAll()">${LANG==='ko'?'전체 응답 JSON 다운로드':'Download All Responses JSON'}</button>
-      <button onclick="submitCurrentText('${x.id}')">${LANG==='ko'?'현재 본문 부분 제출 가능':'Submit Current Text (Partial OK)'}</button>
-      <button onclick="submitAllTexts()">${LANG==='ko'?'전체 부분 제출 가능':'Submit All (Partial OK)'}</button>
-      <button onclick="clearCurrent('${x.id}')">${LANG==='ko'?'현재 본문 응답 삭제':'Clear Current Text'}</button>
+      <button onclick="renderText(current)">${u.refresh}</button>
+      <button onclick="submitCurrentText()">${u.submitCurrent}</button>
+      <button onclick="submitAllTexts()">${u.submitAll}</button>
+      <button onclick="copyCurrent()">${u.copy}</button>
+      <button onclick="downloadAll()">${u.download}</button>
+      <button onclick="clearCurrent()">${u.clear}</button>
     </div>
   `;
+  attachTextareaEvents(id);
+}
+
+function attachTextareaEvents(id){
+  document.querySelectorAll('textarea[data-text="'+id+'"]').forEach(box=>{
+    const field=box.dataset.field;
+    box.value=loadField(id,field);
+    box.addEventListener('input',()=>saveField(id,field,box.value));
+  });
 }
 
 function collectOne(id){
-  const x = TEXTS.find(z=>z.id===id);
-  const fields = [
-    'pre_assumption','pre_expectation','pre_danger',
-    'stage_observe_words','stage_observe_movement','stage_observe_tension',
-    'individual_exe','stage_interpret_intent','stage_interpret_function','gap_historical',
-    'individual_her','stage_bridge_continuity','stage_bridge_discontinuity','gap_literary','gap_cultural','stage_bridge_statement',
-    'stage_embody_perception','stage_embody_desire','stage_embody_behavior','stage_embody_community','gap_formation',
-    'group_a','group_b','integrated',
-    'move_before','move_disruption','move_after','move_next',
-    'praxis_act','praxis_toward','praxis_cost','praxis_resistance','praxis_accountability',
-    'failure_missed','failure_fast','failure_other','final_no_longer','final_must_live'
-  ];
-  const out = { id, title: t(x,'title','titleKo') };
-  fields.forEach(f => out[f] = loadField(id,f));
+  const x=TEXTS.find(z=>z.id===id);
+  const out={id:id,title:tx(x,'title','titleKo')};
+  FIELDS.forEach(f=>out[f[0]]=loadField(id,f[0]));
   return out;
 }
 
-function getSubmissionIdentity(){
-  const name = (document.getElementById('studentName')?.value || '').trim() || 'Anonymous / Not entered';
-  const group = (document.getElementById('studentGroup')?.value || '').trim() || 'No group entered';
-  return { name, group };
-}
-
-function buildPayload(mode, textId=null){
-  const identity = getSubmissionIdentity();
-  if(!identity) return null;
-  const selected = textId ? [collectOne(textId)] : TEXTS.map(x=>collectOne(x.id));
+function buildPayload(mode,id=null){
+  saveIdentity();
+  const selected=id?[collectOne(id)]:TEXTS.map(t=>collectOne(t.id));
   return {
-    course: 'Understanding the Bible',
-    week: 'Week 9',
-    app: 'UB Week 9 Active Learning — Four Gospels',
-    mode,
-    studentName: identity.name,
-    studentGroup: identity.group,
-    submittedAt: new Date().toISOString(),
-    language: LANG,
-    source: window.location.href,
-    responses: selected
+    course:'Understanding the Bible',
+    week:'Week 9',
+    app:'UB Week 9 Active Learning — Stable Four Gospels',
+    mode:mode,
+    studentName:(el('studentName').value||'Anonymous / Not entered').trim(),
+    studentGroup:(el('studentGroup').value||'No group entered').trim(),
+    submittedAt:new Date().toISOString(),
+    language:LANG,
+    source:window.location.href,
+    responses:selected
   };
 }
 
 function submitPayload(payload){
-  if(!payload) return;
-  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('PASTE_YOUR_GOOGLE_APPS_SCRIPT')){
-    showSubmitStatus(LANG==='ko'?'Google Apps Script URL을 먼저 HTML 안에 붙여 넣어야 합니다.':'Paste your Google Apps Script Web App URL into GOOGLE_SCRIPT_URL first.', true);
-    return;
-  }
-  showSubmitStatus(LANG==='ko'?'제출 중입니다...':'Submitting...');
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {'Content-Type':'text/plain;charset=utf-8'},
-    body: JSON.stringify(payload)
-  }).then(()=>{
-    showSubmitStatus(LANG==='ko'?'Google Sheet로 제출했습니다.':'Submitted to Google Sheet.');
-  }).catch(err=>{
-    console.error(err);
-    showSubmitStatus(LANG==='ko'?'제출 오류가 발생했습니다. JSON 다운로드를 백업으로 사용하세요.':'Submission error. Use Download JSON as backup.', true);
-  });
+  showStatus(UI[LANG].submitting);
+  try{
+    const iframeName='googleSubmitFrame_'+Date.now();
+    const iframe=document.createElement('iframe'); iframe.name=iframeName; iframe.style.display='none'; document.body.appendChild(iframe);
+    const form=document.createElement('form'); form.method='POST'; form.action=GOOGLE_SCRIPT_URL; form.target=iframeName; form.style.display='none';
+    const input=document.createElement('input'); input.type='hidden'; input.name='payload'; input.value=JSON.stringify(payload); form.appendChild(input);
+    document.body.appendChild(form); form.submit();
+    setTimeout(()=>{showStatus(UI[LANG].sent,'success'); try{form.remove();iframe.remove()}catch(e){}},1200);
+  }catch(e){console.error(e); showStatus(UI[LANG].error,'error')}
 }
+function submitCurrentText(){submitPayload(buildPayload('current_text',current))}
+function submitAllTexts(){submitPayload(buildPayload('all_texts'))}
 
-function submitCurrentText(id){ submitPayload(buildPayload('current_text', id)); }
-function submitAllTexts(){ submitPayload(buildPayload('all_texts')); }
-
-function copyCurrent(id){
-  const data = collectOne(id);
-  const txt = Object.entries(data).map(([k,v])=>`${k}: ${v}`).join('\n\n');
-  navigator.clipboard.writeText(txt);
-  alert(LANG==='ko'?'복사되었습니다.':'Copied.');
+function copyCurrent(){
+  const data=collectOne(current);
+  navigator.clipboard.writeText(Object.entries(data).map(([k,v])=>k+': '+v).join('\n\n'));
+  alert(UI[LANG].copied);
 }
 function downloadAll(){
-  const data = TEXTS.map(x=>collectOne(x.id));
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'UB_W9_Active_Learning_Responses.json';
-  a.click();
+  const data=TEXTS.map(t=>collectOne(t.id));
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='UB_W9_Active_Learning_Responses.json'; a.click();
 }
-function clearCurrent(id){
-  [
-    'pre_assumption','pre_expectation','pre_danger',
-    'stage_observe_words','stage_observe_movement','stage_observe_tension',
-    'individual_exe','stage_interpret_intent','stage_interpret_function','gap_historical',
-    'individual_her','stage_bridge_continuity','stage_bridge_discontinuity','gap_literary','gap_cultural','stage_bridge_statement',
-    'stage_embody_perception','stage_embody_desire','stage_embody_behavior','stage_embody_community','gap_formation',
-    'group_a','group_b','integrated',
-    'move_before','move_disruption','move_after','move_next',
-    'praxis_act','praxis_toward','praxis_cost','praxis_resistance','praxis_accountability',
-    'failure_missed','failure_fast','failure_other','final_no_longer','final_must_live'
-  ].forEach(f=>localStorage.removeItem(storageKey(id,f)));
- ;
+function clearCurrent(){
+  if(!confirm(UI[LANG].confirmClear)) return;
+  FIELDS.forEach(f=>localStorage.removeItem(storageKey(current,f[0])));
+  renderText(current);
 }
-renderLists(); loadIdentity();
+
+el('studentName').addEventListener('input',saveIdentity);
+el('studentGroup').addEventListener('input',saveIdentity);
+loadIdentity(); renderLists(); renderText(current);
 </script>
 </body>
 </html>
